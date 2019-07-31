@@ -5,7 +5,9 @@ import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface UsuarioService {
 
@@ -13,4 +15,7 @@ public interface UsuarioService {
 
     @GET(API_ROUTE)
     Call< List<UsuarioResponse> > get();
+
+    @POST(API_ROUTE)
+    Call < UsuarioResponse > postMovieDetails(@Field("UserName") String username, @Field("Contraseña") String contraseña);
 }

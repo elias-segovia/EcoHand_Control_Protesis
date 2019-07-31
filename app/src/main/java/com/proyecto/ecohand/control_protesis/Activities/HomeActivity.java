@@ -53,10 +53,7 @@ public class HomeActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<UsuarioResponse>>() {
             @Override
             public void onResponse(Call<List<UsuarioResponse>> call, Response<List<UsuarioResponse>> response) {
-//                for(Post post : response.body()) {
-//                    titles.add(post.getTitle());
-//                }
-//                arrayAdapter.notifyDataSetChanged();
+
                 for (UsuarioResponse u : response.body()) {
                     titles.add(u.getUsername());
                 }

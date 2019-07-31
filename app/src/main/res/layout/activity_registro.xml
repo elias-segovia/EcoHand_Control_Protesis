@@ -44,35 +44,6 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="22dp"-->
-            <!--android:paddingLeft="38dp"-->
-            <!--android:paddingRight="38dp"-->
-            <!--android:paddingTop="10dp"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:background="@drawable/rect_white_0"-->
-            <!--&gt;-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="12dp"-->
-                <!--android:layout_height="16dp"-->
-                <!--android:layout_marginTop="2dp"-->
-                <!--android:src="@drawable/ic_search" />-->
-
-            <!--<customfonts.MyTextView_SF_Pro_Display_Medium-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginTop="1dp"-->
-                <!--android:textSize="12sp"-->
-                <!--android:text="Ingrese su Cuenta de Google"-->
-                <!--android:textColor="#3b3b3b" />-->
-
-        <!--</LinearLayout>-->
-
         <customfonts.EditText__SF_Pro_Display_Medium
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,7 +62,6 @@
 
 
         <customfonts.EditText__SF_Pro_Display_Medium
-            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -109,8 +79,7 @@
             android:textSize="11.5sp" />
 
         <customfonts.MyTextView_SF_Pro_Display_Medium
-            android:id="@+id/acceder"
-            android:onClick="Acceder"
+            android:onClick="Crear_Cuenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -120,7 +89,7 @@
             android:paddingLeft="48dp"
             android:paddingRight="48dp"
             android:paddingTop="11dp"
-            android:text="Acceder"
+            android:text="Crear Cuenta"
             android:textAllCaps="false"
             android:textColor="#3b3b3b"
             android:textSize="11.5sp" />
@@ -134,21 +103,14 @@
             android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
-            <customfonts.TextViewSFProDisplayRegular
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No tienes Cuenta Google?"
-                android:textColor="#B3ffffff"
-                android:textSize="11.5sp" />
-
             <customfonts.MyTextView_SF_Pro_Display_Semibold
-                android:onClick="Registrarse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
-                android:text="Crear Cuenta"
-                android:textColor="#ffffff"
-                android:textSize="11.5sp" />
+                android:text="Esta Cuenta ya existe, intenta con otra diferente."
+                android:textColor="#FF7C7C"
+                android:textSize="11.5sp"
+                android:visibility="invisible"/>
 
         </LinearLayout>
 

@@ -7,22 +7,16 @@ import android.view.View;
 
 import com.proyecto.ecohand.control_protesis.R;
 
-public class InicioActivity extends AppCompatActivity {
+public class RegistroActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("EcoHand - Control de Prótesis");
-        setContentView(R.layout.activity_inicio);
+        setContentView(R.layout.activity_registro);
     }
 
-    public void Login(View v) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    public void Registrarse(View v) {
-        Intent intent = new Intent(this, RegistroActivity.class);
+    public void Crear_Cuenta(View v) {
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 }

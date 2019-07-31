@@ -134,6 +134,7 @@
                 android:textSize="11.5sp" />
 
             <customfonts.MyTextView_SF_Pro_Display_Semibold
+                android:onClick="Registrarse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"

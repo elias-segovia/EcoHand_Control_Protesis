@@ -5,6 +5,7 @@ public class UsuarioResponse {
     private int id;
     private String username;
     private String email;
+    private String contraseña;
 
     public int getId() {
         return id;
@@ -28,6 +29,14 @@ public class UsuarioResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
 
 }
