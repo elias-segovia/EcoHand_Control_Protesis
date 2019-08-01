@@ -62,6 +62,18 @@
             android:textColor="#ffffff"
             android:textSize="11.5sp" />
 
+        <customfonts.MyTextView_SF_Pro_Display_Semibold
+            android:id="@+id/Usuario_Error_TextViewID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="41dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="41dp"
+            android:text="Ese Usuario ya existe, pruebe con otro!"
+            android:textColor="#FF7C7C"
+            android:textSize="11.5sp"
+            android:visibility="invisible" />
+
         <customfonts.EditText__SF_Pro_Display_Medium
             android:id="@+id/EmailID"
             android:layout_width="match_parent"
@@ -79,6 +91,18 @@
             android:textColorHint="#ffffff"
             android:textColor="#ffffff"
             android:textSize="11.5sp" />
+
+        <customfonts.MyTextView_SF_Pro_Display_Semibold
+            android:id="@+id/Email_Error_TextViewID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="61dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginRight="41dp"
+            android:text="Email incorrecto, ingrese un email valido!"
+            android:textColor="#FF7C7C"
+            android:textSize="11.5sp"
+            android:visibility="invisible" />
 
 
         <customfonts.EditText__SF_Pro_Display_Medium
@@ -108,31 +132,58 @@
             android:orientation="horizontal">
 
             <customfonts.MyTextView_SF_Pro_Display_Semibold
+                android:id="@+id/Error_TextViewID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="9dp"
-                android:text="Esta Cuenta ya existe, intenta con otra diferente."
+                android:layout_marginLeft="41dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="41dp"
+                android:layout_marginBottom="3dp"
                 android:textColor="#FF7C7C"
                 android:textSize="11.5sp"
                 android:visibility="invisible" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp">
+
         <customfonts.MyTextView_SF_Pro_Display_Medium
             android:id="@+id/RegistrarID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
             android:background="@drawable/rect_white"
-            android:paddingLeft="48dp"
+            android:paddingLeft="36dp"
             android:paddingTop="11dp"
-            android:paddingRight="48dp"
+            android:paddingRight="36dp"
             android:paddingBottom="11dp"
+            android:layout_marginRight="20dp"
             android:text="Crear Cuenta"
             android:textAllCaps="false"
             android:textColor="#3b3b3b"
             android:textSize="11.5sp" />
+
+
+        <customfonts.MyTextView_SF_Pro_Display_Medium
+            android:onClick="volver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/rect_white"
+            android:paddingLeft="45dp"
+            android:paddingTop="11dp"
+            android:paddingRight="45dp"
+            android:paddingBottom="11dp"
+            android:text="Cancelar"
+            android:textAllCaps="false"
+            android:textColor="#3b3b3b"
+            android:textSize="11.5sp" />
+
+    </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progressBarID"
@@ -142,7 +193,9 @@
             android:layout_marginLeft="41dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="41dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"
+            android:outlineAmbientShadowColor="#ffffff"
+            />
 
 
     </LinearLayout>

@@ -81,7 +81,7 @@
             android:layout_marginRight="41dp"
             android:layout_marginTop="21dp"
             android:background="@drawable/rect"
-            android:hint="Email"
+            android:hint="Usuario"
             android:inputType="text"
             android:paddingBottom="14dp"
             android:paddingLeft="20dp"
@@ -137,7 +137,7 @@
             <customfonts.TextViewSFProDisplayRegular
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No tienes Cuenta Google?"
+                android:text="¿No tienes una cuenta?"
                 android:textColor="#B3ffffff"
                 android:textSize="11.5sp" />
 
@@ -146,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
-                android:text="Crear Cuenta"
+                android:text="Registrate"
                 android:textColor="#ffffff"
                 android:textSize="11.5sp" />
 
