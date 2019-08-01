@@ -45,6 +45,24 @@
         android:orientation="vertical">
 
         <customfonts.EditText__SF_Pro_Display_Medium
+            android:id="@+id/UsuarioID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="41dp"
+            android:layout_marginRight="41dp"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/rect"
+            android:hint="Usuario"
+            android:inputType="text"
+            android:paddingBottom="14dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="14dp"
+            android:textColorHint="#ffffff"
+            android:textSize="11.5sp" />
+
+        <customfonts.EditText__SF_Pro_Display_Medium
+            android:id="@+id/EmailID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -62,6 +80,7 @@
 
 
         <customfonts.EditText__SF_Pro_Display_Medium
+            android:id="@+id/ContraseñaID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -77,23 +96,6 @@
             android:paddingTop="13dp"
             android:textColorHint="#ffffff"
             android:textSize="11.5sp" />
-
-        <customfonts.MyTextView_SF_Pro_Display_Medium
-            android:onClick="Crear_Cuenta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rect_white"
-            android:paddingBottom="11dp"
-            android:paddingLeft="48dp"
-            android:paddingRight="48dp"
-            android:paddingTop="11dp"
-            android:text="Crear Cuenta"
-            android:textAllCaps="false"
-            android:textColor="#3b3b3b"
-            android:textSize="11.5sp" />
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -113,6 +115,34 @@
                 android:visibility="invisible"/>
 
         </LinearLayout>
+
+        <customfonts.MyTextView_SF_Pro_Display_Medium
+            android:id="@+id/RegistrarID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rect_white"
+            android:paddingBottom="11dp"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
+            android:paddingTop="11dp"
+            android:text="Crear Cuenta"
+            android:textAllCaps="false"
+            android:textColor="#3b3b3b"
+            android:textSize="11.5sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBarID"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="41dp"
+            android:layout_marginRight="41dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"/>
+
+
 
     </LinearLayout>
 
