@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_marginTop="45dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/rect_white"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingLeft="38dp"
+    android:paddingRight="38dp"
+    android:paddingTop="10dp">
+
+    <customfonts.MyTextView_SF_Pro_Display_Medium
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+        android:id="@+id/SecuenciaID"
+    android:layout_marginLeft="5dp"
+    android:layout_marginTop="1dp"
+    android:text="Secuencia"
+    android:textColor="#3b3b3b"
+    android:textSize="12sp" />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

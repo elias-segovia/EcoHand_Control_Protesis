@@ -16,6 +16,9 @@ import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import Adapters.SecuenciaAdapter;
+import Models.Secuencia;
+import customfonts.MyTextView_SF_Pro_Display_Medium;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,6 +29,7 @@ public class HomeActivity extends AppCompatActivity {
 
     ListView list;
     ArrayList<String> titles = new ArrayList<>();
+    ArrayList<Secuencia> secuencias = new ArrayList<Secuencia>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,81 @@ public class HomeActivity extends AppCompatActivity {
 
         list = findViewById(R.id.list);
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, titles);
+        SecuenciaAdapter adapter = new SecuenciaAdapter(this, secuencias);
 
-        list.setAdapter(arrayAdapter);
+        list.setAdapter(adapter);
 
-        getSecuencias(arrayAdapter);
+        getSecuencias(adapter);
     }
+
+    private void getSecuencias(final SecuenciaAdapter arrayAdapter) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://ecohand-backend.azurewebsites.net/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        SecuenciaService secuenciaService = retrofit.create(SecuenciaService.class);
+        Call<List<SecuenciaResponse>> call = secuenciaService.get();
+
+        call.enqueue(new Callback<List<SecuenciaResponse>>() {
+            @Override
+            public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
+
+                for (SecuenciaResponse s : response.body()) {
+                    arrayAdapter.addSecuencia(new Secuencia(s.getNombre()));
+//                    titles.add(s.getNombre());
+                }
+
+                arrayAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<SecuenciaResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setTitle("EcoHand - Control de Prótesis");
+//        setContentView(R.layout.activity_home);
+//
+//        list = findViewById(R.id.list);
+//
+//        ArrayAdapter arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, titles);
+//
+//        list.setAdapter(arrayAdapter);
+//
+//        getSecuencias(arrayAdapter);
+//    }
+//
+//    private void getSecuencias(final ArrayAdapter arrayAdapter) {
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("https://ecohand-backend.azurewebsites.net/api/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//        SecuenciaService secuenciaService = retrofit.create(SecuenciaService.class);
+//        Call<List<SecuenciaResponse>> call = secuenciaService.get();
+//
+//        call.enqueue(new Callback<List<SecuenciaResponse>>() {
+//            @Override
+//            public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
+//
+//                for (SecuenciaResponse s : response.body()) {
+//                    titles.add(s.getNombre());
+//                    titles.add(s.getDescripcion());
+//                }
+//
+//                arrayAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<SecuenciaResponse>> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void getUsuarios(final ArrayAdapter arrayAdapter) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -63,36 +136,6 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<UsuarioResponse>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void getSecuencias(final ArrayAdapter arrayAdapter) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://ecohand-backend.azurewebsites.net/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        SecuenciaService secuenciaService = retrofit.create(SecuenciaService.class);
-        Call<List<SecuenciaResponse>> call = secuenciaService.get();
-
-        call.enqueue(new Callback<List<SecuenciaResponse>>() {
-            @Override
-            public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
-//                for(Post post : response.body()) {
-//                    titles.add(post.getTitle());
-//                }
-//                arrayAdapter.notifyDataSetChanged();
-                for (SecuenciaResponse s : response.body()) {
-                    titles.add(s.getNombre());
-                    titles.add(s.getCodigoEjecutable());
-                }
-
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<List<SecuenciaResponse>> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
             }
         });
