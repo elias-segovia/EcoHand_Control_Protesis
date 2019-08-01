@@ -1,4 +1,4 @@
-package Models;
+package com.proyecto.ecohand.control_protesis.Models;
 
 public class Secuencia {
 

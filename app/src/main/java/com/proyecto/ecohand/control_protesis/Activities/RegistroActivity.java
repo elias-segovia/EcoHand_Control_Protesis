@@ -10,7 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.proyecto.ecohand.control_protesis.Models.Request.UsuarioRequest;
+import com.proyecto.ecohand.control_protesis.Models.Response.IdResponse;
 import com.proyecto.ecohand.control_protesis.R;
+import com.proyecto.ecohand.control_protesis.Services.ApiService;
 import com.proyecto.ecohand.control_protesis.Services.UsuarioService;
 
 import customfonts.MyTextView_SF_Pro_Display_Medium;
@@ -41,6 +43,13 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
         registrarButton.setOnClickListener(this);
 
+//        registrarButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+
     }
 //
 //    public void Crear_Cuenta(View v) {
@@ -55,29 +64,25 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                 UsuarioRequest usuarioRequest = new UsuarioRequest(usuarioEditText.getText().toString(),
                         emailEditText.getText().toString(), contrasenaEditText.getText().toString());
                 progressBar.setVisibility(View.VISIBLE);
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("https://ecohand-backend.azurewebsites.net/api/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                UsuarioService usuarioServices = retrofit.create(UsuarioService.class);
-                Call <UsuarioRequest> call = usuarioServices.registrarUsuario(usuarioRequest);
 
-                call.enqueue(new Callback<UsuarioRequest>(){
+                Call<IdResponse> call = ApiService.getUsuarioService().registrarUsuario(usuarioRequest);
+
+                call.enqueue(new Callback<IdResponse>(){
                     @Override
-                    public void onResponse(Call <UsuarioRequest> call, Response<UsuarioRequest> response){
+                    public void onResponse(Call<IdResponse> call, Response<IdResponse> response){
                         progressBar.setVisibility(View.GONE);
-                        UsuarioRequest responseUser = response.body();
+                        IdResponse responseUser = response.body();
                         if (response.isSuccessful() && responseUser != null) {
-                            Toast.makeText(RegistroActivity.this, String.format("Usuario creado correctamente!"),
-                                    Toast.LENGTH_LONG).show();;
+                            Toast.makeText(RegistroActivity.this, String.format("Usuario creado correctamente! " + responseUser.getId()),
+                                    Toast.LENGTH_LONG).show();
                         }else{
-                            Toast.makeText(RegistroActivity.this, String.format("Response is %s", String.valueOf(response.code()))
+                            Toast.makeText(RegistroActivity.this, String.format("Response is %s", String.valueOf(response.code() + " - " + response.message()))
                                     , Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call <UsuarioRequest> call, Throwable t) {
+                    public void onFailure(Call<IdResponse> call, Throwable t) {
                         progressBar.setVisibility(View.GONE);
                         Toast.makeText(RegistroActivity.this,
                                 "Error is " + t.getMessage()

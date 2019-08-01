@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proyecto.ecohand.control_protesis.Models.Response.SecuenciaResponse;
@@ -16,9 +15,8 @@ import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapters.SecuenciaAdapter;
-import Models.Secuencia;
-import customfonts.MyTextView_SF_Pro_Display_Medium;
+import com.proyecto.ecohand.control_protesis.Adapters.SecuenciaAdapter;
+import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

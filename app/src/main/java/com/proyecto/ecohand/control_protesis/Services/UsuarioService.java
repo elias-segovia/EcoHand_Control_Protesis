@@ -1,6 +1,7 @@
 package com.proyecto.ecohand.control_protesis.Services;
 
 import com.proyecto.ecohand.control_protesis.Models.Request.UsuarioRequest;
+import com.proyecto.ecohand.control_protesis.Models.Response.IdResponse;
 import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface UsuarioService {
     Call< List<UsuarioResponse> > get();
 
     @POST(API_ROUTE)
-    Call <UsuarioRequest> registrarUsuario(@Body UsuarioRequest userRequest);
+    Call<IdResponse>  registrarUsuario(@Body UsuarioRequest userRequest);
 }

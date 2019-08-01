@@ -1,4 +1,4 @@
-package Adapters;
+package com.proyecto.ecohand.control_protesis.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +12,7 @@ import com.proyecto.ecohand.control_protesis.R;
 
 import java.util.ArrayList;
 
-import Models.Secuencia;
+import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 
 public class SecuenciaAdapter extends BaseAdapter {
 
