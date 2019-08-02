@@ -16,18 +16,29 @@ public class InicioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle("EcoHand - Control de Prótesis");
         setContentView(R.layout.activity_inicio);
+
+        //SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = prefs.edit();
+        //editor.clear();
+        //editor.commit();
+        //finish();
     }
 
     public void Login(View v) {
         Intent intentLogin = new Intent(this, LoginActivity.class);
         Intent intentHome = new Intent(this, HomeActivity.class);
 
-        SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+        try{
+            SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+            if (prefs.getBoolean("Registrado", false))
+                startActivity(intentHome);
+            else
+                startActivity(intentLogin);
+        }catch (Exception e){
 
-        if (prefs.getBoolean("Registrado", false))
-            startActivity(intentHome);
-        else
-            startActivity(intentLogin);
+        };
+
+        startActivity(intentLogin);
     }
 
     public void Registrarse(View v) {
