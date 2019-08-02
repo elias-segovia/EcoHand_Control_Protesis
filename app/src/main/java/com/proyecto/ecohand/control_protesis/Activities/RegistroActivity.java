@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -14,10 +15,12 @@ import android.widget.Toast;
 
 import com.proyecto.ecohand.control_protesis.Models.Request.UsuarioRequest;
 import com.proyecto.ecohand.control_protesis.Models.Response.IdResponse;
+import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 import com.proyecto.ecohand.control_protesis.R;
 import com.proyecto.ecohand.control_protesis.Services.ApiService;
 import com.proyecto.ecohand.control_protesis.Services.UsuarioService;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 import customfonts.MyTextView_SF_Pro_Display_Medium;
@@ -122,6 +125,28 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                     break;
             }
         }
+    }
+
+    private boolean UsuarioExist(final String usuario) {
+        boolean exist = false;
+
+        Call<List<UsuarioResponse>> call = ApiService.getUsuarioService().get();
+
+        call.enqueue(new Callback<List<UsuarioResponse>>() {
+            @Override
+            public void onResponse(Call<List<UsuarioResponse>> call, Response<List<UsuarioResponse>> response) {
+//                for (UsuarioResponse u : response.body()) {
+//                    if ( u.getUsername().equals(usuario.toString()))
+//
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<List<UsuarioResponse>> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return exist;
     }
 
 
