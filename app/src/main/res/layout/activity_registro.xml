@@ -66,7 +66,7 @@
             android:id="@+id/Usuario_Error_TextViewID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="41dp"
+            android:layout_marginLeft="61dp"
             android:layout_marginTop="11dp"
             android:layout_marginRight="41dp"
             android:text="Ese Usuario ya existe, pruebe con otro!"
@@ -149,7 +149,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="2dp">
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="40dp">
 
         <customfonts.MyTextView_SF_Pro_Display_Medium
             android:id="@+id/RegistrarID"
@@ -184,18 +185,6 @@
             android:textSize="11.5sp" />
 
     </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/progressBarID"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="41dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="41dp"
-            android:layout_marginBottom="10dp"
-            android:outlineAmbientShadowColor="#ffffff"
-            />
 
 
     </LinearLayout>

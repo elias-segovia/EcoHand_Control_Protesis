@@ -13,13 +13,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.proyecto.ecohand.control_protesis.Models.ErrorCodes;
 import com.proyecto.ecohand.control_protesis.Models.Request.UsuarioRequest;
+import com.proyecto.ecohand.control_protesis.Models.Response.ErrorResponse;
 import com.proyecto.ecohand.control_protesis.Models.Response.IdResponse;
 import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 import com.proyecto.ecohand.control_protesis.R;
 import com.proyecto.ecohand.control_protesis.Services.ApiService;
 import com.proyecto.ecohand.control_protesis.Services.UsuarioService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -35,7 +39,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     private EditText usuarioEditText;
     private EditText emailEditText;
     private EditText contrasenaEditText;
-    private ProgressBar progressBar;
     private MyTextView_SF_Pro_Display_Medium registrarButton;
     private Intent intent;
     private TextView Email_Error_TextView;
@@ -50,7 +53,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         usuarioEditText = findViewById(R.id.UsuarioID);
         emailEditText = findViewById(R.id.EmailID);
         contrasenaEditText = findViewById(R.id.ContraseñaID);
-        progressBar = findViewById(R.id.progressBarID);
         registrarButton = findViewById(R.id.RegistrarID);
         Email_Error_TextView = findViewById(R.id.Email_Error_TextViewID);
         Error_TextView = findViewById(R.id.Error_TextViewID);
@@ -82,40 +84,54 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             Error_TextView.setText("Ningún campo puede estar vacío!");
             Error_TextView.setVisibility(View.VISIBLE);
             Email_Error_TextView.setVisibility(View.INVISIBLE);
-        }
-        else if (!validarEmail(emailEditText.getText().toString())) {
+            Usuario_Error_TextView.setVisibility(View.INVISIBLE);
+        } else if (!validarEmail(emailEditText.getText().toString())) {
             Email_Error_TextView.setVisibility(View.VISIBLE);
             Error_TextView.setVisibility(View.INVISIBLE);
-        }
-        else {
+            Usuario_Error_TextView.setVisibility(View.INVISIBLE);
+        } else {
             Email_Error_TextView.setVisibility(View.INVISIBLE);
             Error_TextView.setVisibility(View.INVISIBLE);
             switch (view.getId()) {
                 case R.id.RegistrarID:
                     UsuarioRequest usuarioRequest = new UsuarioRequest(usuarioEditText.getText().toString(),
                             emailEditText.getText().toString(), contrasenaEditText.getText().toString());
-                    progressBar.setVisibility(View.VISIBLE);
 
                     Call<IdResponse> call = ApiService.getUsuarioService().registrarUsuario(usuarioRequest);
 
                     call.enqueue(new Callback<IdResponse>() {
                         @Override
                         public void onResponse(Call<IdResponse> call, Response<IdResponse> response) {
-                            progressBar.setVisibility(View.GONE);
+
                             IdResponse responseUser = response.body();
                             if (response.isSuccessful() && responseUser != null) {
                                 Toast.makeText(RegistroActivity.this, String.format("Usuario creado correctamente!"),
                                         Toast.LENGTH_LONG).show();
                                 startActivity(intent);
                             } else {
-                                Toast.makeText(RegistroActivity.this, String.format("Response is %s", String.valueOf(response.code() + " - " + response.message()))
-                                        , Toast.LENGTH_LONG).show();
+
+                                try {
+                                    ErrorResponse errorResponse = new Gson().fromJson(response.errorBody().string(), ErrorResponse.class);
+
+                                    switch (errorResponse.getMessage()) {
+                                        case ErrorCodes.USUARIO_EXISTENTE:
+                                            Usuario_Error_TextView.setVisibility(View.VISIBLE);
+                                            break;
+                                        default:
+                                            Toast.makeText(RegistroActivity.this, String.format("La respuesta es %s - %s", response.code(), response.message())
+                                                    , Toast.LENGTH_LONG).show();
+                                            break;
+                                    }
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
 
                         @Override
                         public void onFailure(Call<IdResponse> call, Throwable t) {
-                            progressBar.setVisibility(View.GONE);
+
                             Toast.makeText(RegistroActivity.this,
                                     "Error is " + t.getMessage()
                                     , Toast.LENGTH_LONG).show();
@@ -126,29 +142,6 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
             }
         }
     }
-
-    private boolean UsuarioExist(final String usuario) {
-        boolean exist = false;
-
-        Call<List<UsuarioResponse>> call = ApiService.getUsuarioService().get();
-
-        call.enqueue(new Callback<List<UsuarioResponse>>() {
-            @Override
-            public void onResponse(Call<List<UsuarioResponse>> call, Response<List<UsuarioResponse>> response) {
-//                for (UsuarioResponse u : response.body()) {
-//                    if ( u.getUsername().equals(usuario.toString()))
-//
-//                }
-            }
-
-            @Override
-            public void onFailure(Call<List<UsuarioResponse>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
-            }
-        });
-        return exist;
-    }
-
 
     private boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
