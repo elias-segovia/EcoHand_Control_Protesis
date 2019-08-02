@@ -1,6 +1,8 @@
 package com.proyecto.ecohand.control_protesis.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
@@ -107,6 +109,15 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                             if (response.isSuccessful() && responseUser != null) {
                                 Toast.makeText(RegistroActivity.this, String.format("Usuario creado correctamente!"),
                                         Toast.LENGTH_LONG).show();
+
+                                SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = prefs.edit();
+                                editor.putString("UserName",emailEditText.getText().toString());
+                                editor.putString("Email",emailEditText.getText().toString());
+                                editor.putBoolean("Registrado",true);
+                                editor.commit();
+                                finish();
+
                                 startActivity(intent);
                             } else {
 
