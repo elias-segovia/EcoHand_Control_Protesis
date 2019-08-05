@@ -15,10 +15,16 @@ import retrofit2.http.POST;
 public interface UsuarioService {
 
     String API_ROUTE = "Usuarios";
+    String API_LOGIN = "Usuarios/Login";
 
     @GET(API_ROUTE)
     Call< List<UsuarioResponse> > get();
 
     @POST(API_ROUTE)
     Call<IdResponse>  registrarUsuario(@Body UsuarioRequest userRequest);
+
+    @POST(API_LOGIN)
+    Call<IdResponse>  verificarUsuario(@Body UsuarioRequest userRequest);
+
+
 }

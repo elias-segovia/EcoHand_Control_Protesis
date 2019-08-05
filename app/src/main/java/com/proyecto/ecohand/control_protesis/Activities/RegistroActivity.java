@@ -3,49 +3,42 @@ package com.proyecto.ecohand.control_protesis.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.proyecto.ecohand.control_protesis.Models.AsteriskPasswordTransformationMethod;
 import com.proyecto.ecohand.control_protesis.Models.ErrorCodes;
 import com.proyecto.ecohand.control_protesis.Models.Request.UsuarioRequest;
 import com.proyecto.ecohand.control_protesis.Models.Response.ErrorResponse;
 import com.proyecto.ecohand.control_protesis.Models.Response.IdResponse;
-import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 import com.proyecto.ecohand.control_protesis.R;
 import com.proyecto.ecohand.control_protesis.Services.ApiService;
-import com.proyecto.ecohand.control_protesis.Services.UsuarioService;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Pattern;
 
+import customfonts.EditText__SF_Pro_Display_Medium;
 import customfonts.MyTextView_SF_Pro_Display_Medium;
+import customfonts.MyTextView_SF_Pro_Display_Semibold;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegistroActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText usuarioEditText;
-    private EditText emailEditText;
-    private EditText contrasenaEditText;
+    private EditText__SF_Pro_Display_Medium usuarioEditText;
+    private EditText__SF_Pro_Display_Medium emailEditText;
+    private EditText__SF_Pro_Display_Medium contrasenaEditText;
     private MyTextView_SF_Pro_Display_Medium registrarButton;
     private Intent intent;
-    private TextView Email_Error_TextView;
-    private TextView Error_TextView;
-    private TextView Usuario_Error_TextView;
+    private MyTextView_SF_Pro_Display_Semibold Email_Error_TextView;
+    private MyTextView_SF_Pro_Display_Semibold Error_TextView;
+    private MyTextView_SF_Pro_Display_Semibold Usuario_Error_TextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +48,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         usuarioEditText = findViewById(R.id.UsuarioID);
         emailEditText = findViewById(R.id.EmailID);
         contrasenaEditText = findViewById(R.id.ContraseñaID);
+        contrasenaEditText.setTransformationMethod(new AsteriskPasswordTransformationMethod());
         registrarButton = findViewById(R.id.RegistrarID);
         Email_Error_TextView = findViewById(R.id.Email_Error_TextViewID);
         Error_TextView = findViewById(R.id.Error_TextViewID);
@@ -94,6 +88,7 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
         } else {
             Email_Error_TextView.setVisibility(View.INVISIBLE);
             Error_TextView.setVisibility(View.INVISIBLE);
+
             switch (view.getId()) {
                 case R.id.RegistrarID:
                     UsuarioRequest usuarioRequest = new UsuarioRequest(usuarioEditText.getText().toString(),
@@ -110,11 +105,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
                                 Toast.makeText(RegistroActivity.this, String.format("Usuario creado correctamente!"),
                                         Toast.LENGTH_LONG).show();
 
-                                SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+                                SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
-                                editor.putString("UserName",emailEditText.getText().toString());
-                                editor.putString("Email",emailEditText.getText().toString());
-                                editor.putBoolean("Registrado",true);
+                                editor.putString("UserName", usuarioEditText.getText().toString());
+                                editor.putString("Email", emailEditText.getText().toString());
+                                editor.putBoolean("Registrado", true);
                                 editor.commit();
                                 finish();
 

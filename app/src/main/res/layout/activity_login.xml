@@ -101,7 +101,6 @@
             android:layout_marginRight="41dp"
             android:layout_marginTop="21dp"
             android:background="@drawable/rect"
-
             android:hint="Contraseña"
             android:paddingBottom="14dp"
             android:paddingLeft="20dp"
@@ -111,21 +110,8 @@
             android:textColorHint="#ffffff"
             android:textSize="11.5sp" />
 
-        <customfonts.MyTextView_SF_Pro_Display_Semibold
-            android:id="@+id/Usuario_Error_TextViewID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="61dp"
-            android:layout_marginTop="11dp"
-            android:layout_marginRight="41dp"
-            android:text="Usuario inexistente!"
-            android:textColor="#FF7C7C"
-            android:textSize="11.5sp"
-            android:visibility="invisible" />
-
         <customfonts.MyTextView_SF_Pro_Display_Medium
-            android:id="@+id/acceder"
-            android:onClick="Acceder"
+            android:id="@+id/AccederID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -139,6 +125,30 @@
             android:textAllCaps="false"
             android:textColor="#3b3b3b"
             android:textSize="11.5sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
+
+            <customfonts.MyTextView_SF_Pro_Display_Semibold
+                android:id="@+id/Error_TextViewID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="41dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginRight="41dp"
+                android:layout_marginBottom="3dp"
+                android:textColor="#FF7C7C"
+                android:textSize="11.5sp"
+                android:visibility="invisible"
+                android:text="Usuario o Contraseña incorrecta!"/>
+
+        </LinearLayout>
 
 
         <LinearLayout

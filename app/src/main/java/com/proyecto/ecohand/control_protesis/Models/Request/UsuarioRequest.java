@@ -12,6 +12,11 @@ public class UsuarioRequest {
         this.contraseña = contraseña;
     }
 
+    public UsuarioRequest(String username, String contraseña) {
+        this.username = username;
+        this.contraseña = contraseña;
+    }
+
     public String getUsername() {
         return username;
     }

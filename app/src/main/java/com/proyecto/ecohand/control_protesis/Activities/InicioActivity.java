@@ -11,34 +11,41 @@ import com.proyecto.ecohand.control_protesis.R;
 
 public class InicioActivity extends AppCompatActivity {
 
+    private boolean registrado = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle("EcoHand - Control de Prótesis");
         setContentView(R.layout.activity_inicio);
 
-        //SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
-        //SharedPreferences.Editor editor = prefs.edit();
-        //editor.clear();
-        //editor.commit();
-        //finish();
+//        SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.clear();
+//        editor.commit();
+//        finish();
     }
 
     public void Login(View v) {
         Intent intentLogin = new Intent(this, LoginActivity.class);
         Intent intentHome = new Intent(this, HomeActivity.class);
 
-        try{
-            SharedPreferences prefs=getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
-            if (prefs.getBoolean("Registrado", false))
-                startActivity(intentHome);
-            else
-                startActivity(intentLogin);
-        }catch (Exception e){
+        try {
+            SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+            if (prefs.contains("Registrado"))
+                if (prefs.getBoolean("Registrado", false))
+                    registrado = true;
+                else
+                    registrado = false;
+        } catch (Exception e) {
 
-        };
-
-        startActivity(intentLogin);
+        }
+        ;
+        finish();
+        if (registrado == true)
+            startActivity(intentHome);
+        else
+            startActivity(intentLogin);
     }
 
     public void Registrarse(View v) {
