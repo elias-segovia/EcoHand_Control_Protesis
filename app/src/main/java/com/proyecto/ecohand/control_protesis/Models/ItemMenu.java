@@ -5,12 +5,12 @@ public class ItemMenu {
 
     private String titulo;
     private String subTitulo;
-    private String iconoRuta;
+    private int iconoResource;
 
-    public ItemMenu(String titulo, String subTitulo, String iconoRuta) {
+    public ItemMenu(String titulo, String subTitulo, int iconoResource) {
         this.titulo = titulo;
         this.subTitulo = subTitulo;
-        this.iconoRuta = iconoRuta;
+        this.iconoResource = iconoResource;
     }
 
     public String getTitulo() {
@@ -29,11 +29,11 @@ public class ItemMenu {
         this.subTitulo = subTitulo;
     }
 
-    public String getIconoRuta() {
-        return iconoRuta;
+    public int getIconoResource() {
+        return iconoResource;
     }
 
-    public void setIconoRuta(String iconoRuta) {
-        this.iconoRuta = iconoRuta;
+    public void setIconoResource(int iconoResource) {
+        this.iconoResource = iconoResource;
     }
 }

@@ -11,8 +11,10 @@ public class ApiService {
             .build();
 
     private static UsuarioService usuarioService = client.create(UsuarioService.class);
+    private static SecuenciaService secuenciaService = client.create(SecuenciaService.class);
 
     public static UsuarioService getUsuarioService(){
         return usuarioService;
     }
+    public static SecuenciaService getSecuenciaService() { return  secuenciaService; }
 }

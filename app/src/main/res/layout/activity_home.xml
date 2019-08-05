@@ -1,42 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?><!--<android.support.constraint.ConstraintLayout--><!--xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"--><!--android:layout_height="match_parent">-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/splaxe"
-    tools:context=".Activities.HomeActivity">
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/splaxe"
+        tools:context=".Activities.HomeActivity">
+
+        <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/toolbarID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffeeeeee"
+            android:minHeight="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="left">
+
+                <!-- This is a centered logo -->
+                <ImageView
+                    android:onClick="Menu"
+                    android:layout_width="24dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/menu"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="105dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitCenter"
+                android:visibility="visible"></ListView>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentTop="true"
-    android:layout_marginTop="45dp"
-    android:gravity="center"
-    android:orientation="vertical">
-
-        <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:paddingBottom="10dp"-->
-        <!--android:paddingLeft="38dp"-->
-        <!--android:paddingRight="38dp"-->
-        <!--android:paddingTop="10dp">-->
-
-
-    <ListView
-        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:scaleType="fitCenter"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="45dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        ></ListView>
+
+        <ListView
+            android:id="@+id/listMenuID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|start"
+            android:background="#ffeeeeee"
+            android:visibility="invisible"></ListView>
 
     </LinearLayout>
-    <!--</LinearLayout>-->
 
-</RelativeLayout>
+
+    <!-- Side navigation drawer UI -->
+    <!--<ListView-->
+    <!--android:id="@+id/navList"-->
+    <!--android:layout_width="200dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="left|start"-->
+    <!--android:background="#ffeeeeee" />-->
+
+</android.support.v4.widget.DrawerLayout>
+
+
+    <!--</LinearLayout>-->

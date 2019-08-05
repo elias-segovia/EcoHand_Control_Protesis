@@ -24,11 +24,12 @@
             android:src="@drawable/ic_logo" />
 
         <ImageView
+            android:id="@+id/imgID"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="12.4dp"
-            android:src="@drawable/logo_fliply" />
+            android:src="@drawable/logo_fliply"/>
 
         <customfonts.MyTextView_SF_Pro_Display_Semibold
             android:layout_width="wrap_content"

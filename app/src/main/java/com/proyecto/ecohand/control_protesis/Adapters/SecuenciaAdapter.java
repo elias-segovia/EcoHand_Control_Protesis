@@ -24,6 +24,24 @@ public class SecuenciaAdapter extends BaseAdapter {
         this.items = items;
     }
 
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        View v = convertView;
+
+        if (convertView == null) {
+            LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = inf.inflate(R.layout.item_secuencia, null);
+        }
+
+        Secuencia dir = items.get(position);
+
+        TextView title = v.findViewById(R.id.SecuenciaID);
+        title.setText(dir.getNombre());
+
+        return v;
+    }
+
     public void addSecuencia(Secuencia sec){
         items.add(sec);
     }
@@ -51,23 +69,5 @@ public class SecuenciaAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View v = convertView;
-
-        if (convertView == null) {
-            LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inf.inflate(R.layout.item_secuencia, null);
-        }
-
-        Secuencia dir = items.get(position);
-
-        TextView title = v.findViewById(R.id.SecuenciaID);
-        title.setText(dir.getNombre());
-
-        return v;
     }
 }
