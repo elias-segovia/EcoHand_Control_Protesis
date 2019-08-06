@@ -65,6 +65,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    public void onBackPressed() {
+        Intent intentInicio = new Intent(this, InicioActivity.class);
+        startActivity(intentInicio);
+    }
+
     public void volver(View v) {
         intent = new Intent(this, LoginActivity.class);
         startActivity(intent);

@@ -12,4 +12,19 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_home2">Home2Activity</string>
+
+    <!--String para el menu-->
+    <string name="titulo_bluetooth">Conexión Bluetooth</string>
+    <string name="subtitulo_bluetooth">Configurar conexión con la prótesis</string>
+
+    <string name="titulo_voz">Configuración de Voz</string>
+    <string name="subtitulo_voz">Configurar el reconocimiento de voz</string>
+
+    <string name="titulo_version_echohand">Acerca de EcoHand</string>
+    <string name="subtitulo_version_ecohand">Versión 1.0</string>
+
+    <string name="titulo_cerrar_sesion">Cerrar Sesión</string>
+    <string name="subtitulo_cerrar_sesion"></string>
+
+
 </resources>

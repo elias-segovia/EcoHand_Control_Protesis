@@ -50,6 +50,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         accederButton.setOnClickListener(this);
     }
 
+    public void onBackPressed() {
+        Intent intentInicio = new Intent(this, InicioActivity.class);
+        startActivity(intentInicio);
+    }
+
     @Override
     public void onClick(View view) {
         final Intent intent = new Intent(this, HomeActivity.class);

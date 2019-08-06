@@ -15,19 +15,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".Activities.RegistroActivity" />
-        <activity android:name=".Activities.InicioActivity">
-
+        <activity
+            android:name=".Activities.InicioActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:noHistory="true">
+
+            <!-- android:parentActivityName=".Activities.InicioActivity"> -->
+            <!-- <meta-data -->
+            <!-- android:name="android.support.PARENT_ACTIVITY" -->
+            <!-- android:value=".Activities.InicioActivity" /> -->
+        </activity>
+        <activity
+            android:name=".Activities.RegistroActivity"
+            android:noHistory="true" />
+        <activity
+            android:name=".Activities.HomeActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.BluetoothActivity" />
+        <activity android:name=".Activities.VozActivity" />
+        <activity android:name=".Activities.VersionEcohandActivity"></activity>
     </application>
 
 </manifest>

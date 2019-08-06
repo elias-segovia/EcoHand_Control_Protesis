@@ -1,6 +1,5 @@
 package com.proyecto.ecohand.control_protesis.Models;
 
-
 public class ItemMenu {
 
     private String titulo;

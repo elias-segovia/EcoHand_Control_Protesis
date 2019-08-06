@@ -34,7 +34,7 @@
                 android:textColor="#3b3b3b"/>
 
             <ImageView
-                android:id="@+id/arrow"
+                android:id="@+id/arrowID"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_chevron_right_black_24dp"
