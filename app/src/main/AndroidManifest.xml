@@ -42,7 +42,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.BluetoothActivity" />
         <activity android:name=".Activities.VozActivity" />
-        <activity android:name=".Activities.VersionEcohandActivity"></activity>
+        <activity
+            android:name=".Activities.VersionEcohandActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

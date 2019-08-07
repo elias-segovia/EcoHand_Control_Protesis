@@ -1,9 +1,15 @@
 package com.proyecto.ecohand.control_protesis.Activities;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +35,7 @@ import java.util.List;
 import com.proyecto.ecohand.control_protesis.Adapters.SecuenciaAdapter;
 import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 
+import customfonts.TextViewSFProDisplayRegular;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +51,8 @@ public class HomeActivity extends AppCompatActivity {
     private android.support.v7.widget.Toolbar toolbar;
     private boolean toolbarVisible = false;
     private ImageView comandoVoz;
+    private ProgressBar spinner;
+    private TextViewSFProDisplayRegular cargaSecuencias;
 
     TextView comando;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
@@ -58,6 +68,10 @@ public class HomeActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbarID);
         comandoVoz = findViewById(R.id.microsfonoID);
         comando = findViewById(R.id.txtComandoID);
+        cargaSecuencias = findViewById(R.id.SubtituloID);
+        spinner = findViewById(R.id.progressBarID);
+        spinner.getIndeterminateDrawable().setColorFilter(Color.rgb(128, 139, 150), PorterDuff.Mode.SRC_IN);
+        spinner.setVisibility(View.VISIBLE);
 
         Menu.SetMenu(this.getBaseContext());
         Menu.setActivity(this);
@@ -71,6 +85,7 @@ public class HomeActivity extends AppCompatActivity {
 
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Intent intent;
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -87,8 +102,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(HomeActivity.this, InicioActivity.class);
-                        startActivity(intent);
+                        openAlert();
                         break;
                 }
             }
@@ -116,6 +130,8 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 arrayAdapter.notifyDataSetChanged();
+                cargaSecuencias.setVisibility(View.GONE);
+                spinner.setVisibility(View.GONE);
             }
 
             @Override
@@ -133,6 +149,34 @@ public class HomeActivity extends AppCompatActivity {
             listMenu.setVisibility(View.INVISIBLE);
             toolbarVisible = false;
         }
+    }
+
+    public void openAlert() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("¿Estás seguro que quieres cerrar sesión?");
+        alertDialogBuilder.setPositiveButton("Sí",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        Intent intent = new Intent(HomeActivity.this, InicioActivity.class);
+                        SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean("Registrado", false);
+                        editor.commit();
+                        finish();
+                        Toast.makeText(HomeActivity.this, "Sesión cerrada!", Toast.LENGTH_LONG).show();
+                        startActivity(intent);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     public void ComandoVoz(View view) {

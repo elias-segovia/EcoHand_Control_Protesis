@@ -48,9 +48,42 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="105dp"
+            android:layout_marginTop="85dp"
             android:gravity="center"
             android:orientation="vertical">
+
+            <customfonts.MyTextView_SF_Pro_Display_Semibold
+                android:id="@+id/tituloID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="49dp"
+                android:layout_marginRight="49dp"
+                android:text="Secuencias"
+                android:textColor="#ffffff"
+                android:textSize="15.5dp"
+                android:textStyle="bold"
+                />
+
+            <customfonts.TextViewSFProDisplayRegular
+                android:id="@+id/SubtituloID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="60dp"
+                android:textColor="#a9a9b0"
+                android:text="Cargando secuencias..."/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBarID"
+                android:layout_marginTop="50dp"
+                android:layout_below="@+id/SubtituloID"
+                android:layout_alignParentBottom="true"
+                />
 
 
             <ListView
