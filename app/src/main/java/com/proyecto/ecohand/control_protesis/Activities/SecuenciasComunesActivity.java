@@ -60,6 +60,17 @@ public class SecuenciasComunesActivity extends Activity {
         listaSecuenciasBtn.setAdapter(adapter);
         cargarSecuencias(adapter);
 
+        listaSecuenciasBtn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            Intent intent;
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //            cambiar por los metodos de cada secuencia
+                comando.setText(secuencias.get(position).getNombre());
+            }
+        });
+
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Intent intent;
 
@@ -159,16 +170,29 @@ public class SecuenciasComunesActivity extends Activity {
             case RECOGNIZE_SPEECH_ACTIVITY:
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String strSpeech2Text = speech.get(0);
-                    comando.setText(strSpeech2Text);
+                    String respuesta = speech.get(0);
+
+                    if (respuesta.toUpperCase().indexOf("PARAR") <= -1) {
+
+                        for (Secuencia s : secuencias) {
+                            if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
+                                // ejecutar metodo de la secuencia
+                            }
+                        }
+
+                        ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
+                    }
+
+                    comando.setText(respuesta);
                 }
                 break;
             default:
+                comando.setText("Esa Secuencia no existe!");
                 break;
         }
     }
 
-    public void right(View view){
+    public void right(View view) {
         Intent intent = new Intent(SecuenciasComunesActivity.this, HomeActivity.class);
         startActivity(intent);
     }

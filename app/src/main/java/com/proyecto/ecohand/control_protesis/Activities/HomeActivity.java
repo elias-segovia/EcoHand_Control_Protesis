@@ -78,8 +78,19 @@ public class HomeActivity extends AppCompatActivity {
         SecuenciaAdapter adapter = new SecuenciaAdapter(this, secuencias);
 
         listaSecuenciasBtn.setAdapter(adapter);
-
         getSecuencias(adapter);
+
+        listaSecuenciasBtn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            Intent intent;
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                //            cambiar por los metodos de cada secuencia
+                comando.setText(secuencias.get(position).getNombre());
+
+            }
+        });
 
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             Intent intent;
@@ -197,11 +208,24 @@ public class HomeActivity extends AppCompatActivity {
             case RECOGNIZE_SPEECH_ACTIVITY:
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    String strSpeech2Text = speech.get(0);
-                    comando.setText(strSpeech2Text);
+                    String respuesta = speech.get(0);
+
+                    if (respuesta.toUpperCase().indexOf("PARAR") <= -1) {
+
+                        for (Secuencia s : secuencias) {
+                            if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
+                                // ejecutar metodo de la secuencia
+                            }
+                        }
+
+                        ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
+                    }
+
+                    comando.setText(respuesta);
                 }
                 break;
             default:
+                comando.setText("Esa Secuencia no existe!");
                 break;
         }
     }
@@ -232,13 +256,15 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void left(View view){
+    public void left(View view) {
         Intent intent = new Intent(HomeActivity.this, SecuenciasComunesActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    public void right(View view){
+    public void right(View view) {
         Intent intent = new Intent(HomeActivity.this, SecuenciasComunesActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }

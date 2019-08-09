@@ -100,10 +100,10 @@
 
             <TextView
                 android:id="@+id/txtComandoID"
-                android:layout_width="450dp"
-                android:layout_height="53dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="16dp"
+                android:layout_margin="20dp"
                 android:textColor="#ffffff"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
