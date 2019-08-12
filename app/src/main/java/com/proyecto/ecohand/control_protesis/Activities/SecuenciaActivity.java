@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,19 +20,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.proyecto.ecohand.control_protesis.Adapters.SecuenciaAdapter;
 import com.proyecto.ecohand.control_protesis.Models.Menu;
-import com.proyecto.ecohand.control_protesis.Models.Request.UsuarioRequest;
 import com.proyecto.ecohand.control_protesis.Models.Response.SecuenciaResponse;
+import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
+import com.proyecto.ecohand.control_protesis.Models.Secuencia;
+import com.proyecto.ecohand.control_protesis.R;
 import com.proyecto.ecohand.control_protesis.Services.ApiService;
 import com.proyecto.ecohand.control_protesis.Services.UsuarioService;
-import com.proyecto.ecohand.control_protesis.R;
-import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.proyecto.ecohand.control_protesis.Adapters.SecuenciaAdapter;
-import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 
 import customfonts.TextViewSFProDisplayRegular;
 import retrofit2.Call;
@@ -41,7 +39,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeActivity extends AppCompatActivity {
+public class SecuenciaActivity extends AppCompatActivity {
 
     private ListView listaSecuenciasBtn;
     private ListView listMenu;
@@ -56,11 +54,10 @@ public class HomeActivity extends AppCompatActivity {
     private TextView comando;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_secuencia);
 
         listaSecuenciasBtn = findViewById(R.id.list);
         listMenu = findViewById(R.id.listMenuID);
@@ -100,15 +97,15 @@ public class HomeActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        intent = new Intent(HomeActivity.this, BluetoothActivity.class);
+                        intent = new Intent(SecuenciaActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
                     case 1:
-                        intent = new Intent(HomeActivity.this, VozActivity.class);
+                        intent = new Intent(SecuenciaActivity.this, VozActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(HomeActivity.this, VersionEcohandActivity.class);
+                        intent = new Intent(SecuenciaActivity.this, VersionEcohandActivity.class);
                         startActivity(intent);
                         break;
                     case 3:
@@ -122,18 +119,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        Intent intentInicio = new Intent(this, InicioActivity.class);
+        Intent intentInicio = new Intent(this, HomeActivity.class);
         startActivity(intentInicio);
     }
 
     private void getSecuencias(final SecuenciaAdapter arrayAdapter) {
 
-
-
-        SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
-        String username = prefs.getString("UserName", "");
-        UsuarioRequest usuarioRequest = new UsuarioRequest(username);
-        Call<List<SecuenciaResponse>> call = ApiService.getSecuenciaService().getSecuencias(usuarioRequest);
+        Call<List<SecuenciaResponse>> call = ApiService.getSecuenciaService().get();
 
         call.enqueue(new Callback<List<SecuenciaResponse>>() {
             @Override
@@ -173,13 +165,13 @@ public class HomeActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        Intent intent = new Intent(HomeActivity.this, InicioActivity.class);
+                        Intent intent = new Intent(SecuenciaActivity.this, InicioActivity.class);
                         SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putBoolean("Registrado", false);
                         editor.commit();
                         finish();
-                        Toast.makeText(HomeActivity.this, "Sesión cerrada!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SecuenciaActivity.this, "Sesión cerrada!", Toast.LENGTH_LONG).show();
                         startActivity(intent);
                     }
                 });
@@ -263,14 +255,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void left(View view) {
-        Intent intent = new Intent(HomeActivity.this, SecuenciasComunesActivity.class);
+        Intent intent = new Intent(SecuenciaActivity.this, HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-    }
-
-    public void right(View view) {
-        Intent intent = new Intent(HomeActivity.this, SecuenciaActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }

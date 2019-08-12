@@ -6,6 +6,10 @@ public class UsuarioRequest {
     private String email;
     private String contraseña;
 
+    public UsuarioRequest(String username) {
+        this.username = username;
+    }
+
     public UsuarioRequest(String username, String email, String contraseña) {
         this.username = username;
         this.email = email;
