@@ -29,21 +29,19 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginTop="12.4dp"
-            android:src="@drawable/logo_fliply"/>
+            android:src="@drawable/logo_fliply" />
 
         <customfonts.MyTextView_SF_Pro_Display_Semibold
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="50dp"
             android:layout_marginLeft="49dp"
             android:layout_marginRight="49dp"
+            android:layout_marginTop="50dp"
             android:text="Control de Prótesis"
             android:textColor="#ffffff"
             android:textSize="15.5dp"
-            android:textStyle="bold"
-            />
-
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -57,12 +55,12 @@
         android:orientation="vertical">
 
         <customfonts.MyTextView_SF_Pro_Display_Medium
-            android:onClick="Login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
             android:layout_marginTop="13dp"
             android:background="@drawable/rect"
+            android:onClick="Inicio"
             android:paddingBottom="12dp"
             android:paddingLeft="55dp"
             android:paddingRight="55dp"
@@ -71,95 +69,6 @@
             android:textColor="#ffffff"
             android:textSize="12sp" />
 
-
-        <!--o-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="17dp"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<View-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="0.5dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:background="#33ffffff" />-->
-
-            <!--<customfonts.MyTextView_SF_Pro_Display_Medium-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="9dp"-->
-                <!--android:layout_marginRight="9dp"-->
-                <!--android:text="o"-->
-                <!--android:textColor="#99ffffff"-->
-                <!--android:textSize="10sp" />-->
-
-            <!--<View-->
-                <!--android:layout_width="50dp"-->
-                <!--android:layout_height="0.5dp"-->
-                <!--android:layout_marginTop="8dp"-->
-                <!--android:background="#33ffffff" />-->
-        <!--</LinearLayout>-->
-
-
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="22dp"-->
-            <!--android:background="@drawable/rect_white"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingBottom="10dp"-->
-            <!--android:paddingLeft="38dp"-->
-            <!--android:paddingRight="38dp"-->
-            <!--android:paddingTop="10dp">-->
-
-            <!--<ImageView-->
-                <!--android:layout_width="12dp"-->
-                <!--android:layout_height="16dp"-->
-                <!--android:layout_marginTop="2dp"-->
-                <!--android:src="@drawable/ic_search" />-->
-
-            <!--<customfonts.MyTextView_SF_Pro_Display_Medium-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:layout_marginTop="1dp"-->
-                <!--android:text="Continuar con Google"-->
-                <!--android:textColor="#3b3b3b"-->
-                <!--android:textSize="12sp" />-->
-        <!--</LinearLayout>-->
-
-
-        <!--ultimo renglon-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginTop="15dp"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<customfonts.TextViewSFProDisplayRegular-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="¿No tienes cuenta?"-->
-                <!--android:textColor="#B3ffffff"-->
-                <!--android:textSize="11.5sp" />-->
-
-            <!--<customfonts.MyTextView_SF_Pro_Display_Semibold-->
-                <!--android:onClick="Registrarse"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="9dp"-->
-                <!--android:text="Registrate"-->
-                <!--android:textColor="#ffffff"-->
-                <!--android:textSize="11.5sp" />-->
-        <!--</LinearLayout>-->
-
-
     </LinearLayout>
-
 
 </RelativeLayout>

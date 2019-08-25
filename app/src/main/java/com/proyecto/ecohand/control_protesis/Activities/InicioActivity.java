@@ -11,7 +11,8 @@ import com.proyecto.ecohand.control_protesis.R;
 
 public class InicioActivity extends AppCompatActivity {
 
-    private boolean registrado = false;
+    private boolean registrado, conectadoBT = false;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,38 +28,47 @@ public class InicioActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        // salir de la app
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("ConexionBT", false);
+        editor.commit();
         finish();
         System.exit(0);
     }
 
-    public void Login(View v) {
+    public void Inicio(View v) {
         Intent intentLogin = new Intent(this, LoginActivity.class);
+        Intent intentBluetooth = new Intent(this, BluetoothActivity.class);
         Intent intentHome = new Intent(this, HomeActivity.class);
 
         try {
-            SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+            prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+
             if (prefs.contains("Registrado"))
                 if (prefs.getBoolean("Registrado", false))
                     registrado = true;
                 else
                     registrado = false;
+            if (prefs.contains("ConexionBT"))
+                if (prefs.getBoolean("ConexionBT", false))
+                    conectadoBT = true;
+                else
+                    conectadoBT = false;
         } catch (Exception e) {
 
         }
-        ;
-        finish();
-        if (registrado == true)
-            startActivity(intentHome);
-        else
-            startActivity(intentLogin);
-    }
 
-    public void Registrarse(View v) {
-        Intent intent = new Intent(this, RegistroActivity.class);
-        startActivity(intent);
+        if (registrado == true) {
+            if (conectadoBT == true)
+                startActivity(intentBluetooth);
+            else
+                startActivity(intentBluetooth);
+        } else
+            startActivity(intentLogin);
     }
 }

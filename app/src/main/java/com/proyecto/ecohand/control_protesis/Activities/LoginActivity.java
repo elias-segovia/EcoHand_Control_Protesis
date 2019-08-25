@@ -6,11 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.proyecto.ecohand.control_protesis.Models.AsteriskPasswordTransformationMethod;
 import com.proyecto.ecohand.control_protesis.Models.ErrorCodes;
@@ -57,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        final Intent intent = new Intent(this, HomeActivity.class);
+        final Intent intent = new Intent(this, BluetoothActivity.class);
 
         switch (view.getId()) {
             case R.id.AccederID:
@@ -121,6 +117,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = new Intent(this, RegistroActivity.class);
         startActivity(intent);
     }
-
 
 }

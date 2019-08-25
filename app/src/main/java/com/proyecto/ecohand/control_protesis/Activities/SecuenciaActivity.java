@@ -132,7 +132,7 @@ public class SecuenciaActivity extends AppCompatActivity {
             public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
 
                 for (SecuenciaResponse s : response.body()) {
-                    arrayAdapter.addSecuencia(new Secuencia(s.getNombre()));
+                    arrayAdapter.addSecuencia(new Secuencia(s.getNombre(),s.getCodigoEjecutable()));
 //                    titles.add(s.getNombre());
                 }
 

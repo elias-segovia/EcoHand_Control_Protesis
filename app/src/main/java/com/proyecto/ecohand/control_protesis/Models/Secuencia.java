@@ -3,9 +3,11 @@ package com.proyecto.ecohand.control_protesis.Models;
 public class Secuencia {
 
     private String nombre;
+    private String codigo;
 
-    public Secuencia(String nombre) {
+    public Secuencia(String nombre, String codigo) {
         this.nombre = nombre;
+        this.codigo = codigo;
     }
 
     public String getNombre() {
@@ -14,5 +16,13 @@ public class Secuencia {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 }

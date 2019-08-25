@@ -3,7 +3,6 @@ package com.proyecto.ecohand.control_protesis.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
@@ -66,11 +65,11 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void onBackPressed() {
-        Intent intentInicio = new Intent(this, InicioActivity.class);
+        Intent intentInicio = new Intent(this, LoginActivity.class);
         startActivity(intentInicio);
     }
 
-    public void volver(View v) {
+    public void Cancelar(View v) {
         intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
@@ -78,19 +77,24 @@ public class RegistroActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
 
-        intent = new Intent(this, HomeActivity.class);
+        intent = new Intent(this, BluetoothActivity.class);
 
         if (usuarioEditText.getText().toString().isEmpty() ||
                 emailEditText.getText().toString().isEmpty() || contrasenaEditText.getText().toString().isEmpty()) {
+
             Error_TextView.setText("Ningún campo puede estar vacío!");
             Error_TextView.setVisibility(View.VISIBLE);
             Email_Error_TextView.setVisibility(View.INVISIBLE);
             Usuario_Error_TextView.setVisibility(View.INVISIBLE);
+
         } else if (!validarEmail(emailEditText.getText().toString())) {
+
             Email_Error_TextView.setVisibility(View.VISIBLE);
             Error_TextView.setVisibility(View.INVISIBLE);
             Usuario_Error_TextView.setVisibility(View.INVISIBLE);
+
         } else {
+
             Email_Error_TextView.setVisibility(View.INVISIBLE);
             Error_TextView.setVisibility(View.INVISIBLE);
 

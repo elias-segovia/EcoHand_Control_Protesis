@@ -103,11 +103,11 @@ public class SecuenciasComunesActivity extends Activity {
     }
 
     public void cargarSecuencias(final SecuenciaAdapter arrayAdapter) {
-        arrayAdapter.addSecuencia(new Secuencia("Palma Abierta"));
-        arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada"));
-        arrayAdapter.addSecuencia(new Secuencia("Sostener Objeto"));
-        arrayAdapter.addSecuencia(new Secuencia("Pulsar Botón"));
-        arrayAdapter.addSecuencia(new Secuencia("Hacer Click"));
+        arrayAdapter.addSecuencia(new Secuencia("Palma Abierta", "D100D200D300D400D500"));
+        arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada","D15AD25AD35AD45AD55A"));
+        arrayAdapter.addSecuencia(new Secuencia("Sostener Objeto","D15AD25AD35AD45AD55A"));
+        arrayAdapter.addSecuencia(new Secuencia("Pulsar Botón","D100D25AD35AD45AD55A"));
+        arrayAdapter.addSecuencia(new Secuencia("Hacer Click","D100D25AD35AD45AD55A"));
 
         arrayAdapter.notifyDataSetChanged();
     }
@@ -195,5 +195,6 @@ public class SecuenciasComunesActivity extends Activity {
     public void right(View view) {
         Intent intent = new Intent(SecuenciasComunesActivity.this, HomeActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }
