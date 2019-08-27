@@ -2,15 +2,10 @@ package com.proyecto.ecohand.control_protesis.Activities;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,37 +13,30 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.proyecto.ecohand.control_protesis.Adapters.SecuenciaAdapter;
 import com.proyecto.ecohand.control_protesis.Models.Menu;
-import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 import com.proyecto.ecohand.control_protesis.R;
+import com.proyecto.ecohand.control_protesis.Services.BluetoothService;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Set;
-import java.util.UUID;
 
+import customfonts.MyTextView_SF_Pro_Display_Medium;
 import customfonts.MyTextView_SF_Pro_Display_Semibold;
-import customfonts.TextViewSFProDisplayRegular;
 
 public class BluetoothActivity extends AppCompatActivity {
 
     private ListView listMenu;
     private android.support.v7.widget.Toolbar toolbar;
     private boolean toolbarVisible = false;
-    private boolean conectadoBT = false;
+    private MyTextView_SF_Pro_Display_Semibold titulo,infoText;
+    private ListView listView;
+    private MyTextView_SF_Pro_Display_Medium desconectarBT;
 
     // Debugging for LOGCAT
-    private static final String TAG = "DeviceListActivity";
+    private static final String TAG = "BluetoothActivity";
 
     private TextView textView1;
 
@@ -66,8 +54,12 @@ public class BluetoothActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
 
+        titulo = findViewById(R.id.tituloID);
         listMenu = findViewById(R.id.listMenuID);
         toolbar = findViewById(R.id.toolbarID);
+        listView = findViewById(R.id.list);
+        infoText = findViewById(R.id.infoText);
+        desconectarBT = findViewById(R.id.DesconectarID);
 
         Menu.SetMenu(this.getBaseContext());
         Menu.setActivity(this);
@@ -98,21 +90,6 @@ public class BluetoothActivity extends AppCompatActivity {
             }
         });
 
-//        Intent intentHome = new Intent(this, HomeActivity.class);
-//
-//        try {
-//            SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
-//            if (prefs.contains("ConexionBT"))
-//                if (prefs.getBoolean("ConexionBT", false))
-//                    conectadoBT = true;
-//                else
-//                    conectadoBT = false;
-//        } catch (Exception e) {
-//
-//        }
-
-//        if (conectadoBT == true)
-//            startActivity(intentHome);
 
     }
 
@@ -120,36 +97,54 @@ public class BluetoothActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        checkBTState();
+        if (BluetoothService.connectedThread == null) {
 
-        textView1 = findViewById(R.id.connecting);
-        textView1.setTextSize(40);
-        textView1.setText(" ");
+            titulo.setText("Seleccione el Bluetooth de la Prótesis");
+            listView.setVisibility(View.VISIBLE);
+            infoText.setVisibility(View.VISIBLE);
+            checkBTState();
 
-        // Initialize array adapter for paired devices
-        mPairedDevicesArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1);
+            textView1 = findViewById(R.id.connecting);
+            textView1.setTextSize(40);
+            textView1.setText(" ");
 
-        // Find and set up the ListView for paired devices
-        ListView pairedListView = findViewById(R.id.list);
-        pairedListView.setAdapter(mPairedDevicesArrayAdapter);
-        pairedListView.setOnItemClickListener(mDeviceClickListener);
+            // Initialize array adapter for paired devices
+            mPairedDevicesArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1);
 
-        // Get the local Bluetooth adapter
-        mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+            // Find and set up the ListView for paired devices
+            ListView pairedListView = findViewById(R.id.list);
+            pairedListView.setAdapter(mPairedDevicesArrayAdapter);
+            pairedListView.setOnItemClickListener(mDeviceClickListener);
 
-        // Get a set of currently paired devices and append to 'pairedDevices'
-        Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
+            // Get the local Bluetooth adapter
+            mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        // Add previosuly paired devices to the array
-        if (pairedDevices.size() > 0) {
-            findViewById(R.id.tituloID).setVisibility(View.VISIBLE);//make title viewable
-            for (BluetoothDevice device : pairedDevices) {
-                mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+            // Get a set of currently paired devices and append to 'pairedDevices'
+            Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
+
+            // Add previosuly paired devices to the array
+            if (pairedDevices.size() > 0) {
+
+                for (BluetoothDevice device : pairedDevices) {
+                    mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                }
+            } else {
+                String noDevices = "Ningun dispositivo pudo ser emparejado";
+                mPairedDevicesArrayAdapter.add(noDevices);
             }
-        } else {
-            String noDevices = "Ningun dispositivo pudo ser emparejado";
-            mPairedDevicesArrayAdapter.add(noDevices);
         }
+        else{
+            desconectarBT.setVisibility(View.VISIBLE);
+            titulo.setText("El Dispositivo está conectado con la Prótesis!");
+        }
+    }
+
+    public void Desconectar(View view){
+
+        if(BluetoothService.connectedThread != null){
+            BluetoothService.connectedThread.cancel();
+        }
+
     }
 
     // Set up on-click listener for the list (nicked this - unsure)
@@ -160,13 +155,21 @@ public class BluetoothActivity extends AppCompatActivity {
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             final String address = info.substring(info.length() - 17);
-            final String name = info.substring(0,info.length() - 17);
+            final String name = info.substring(0, info.length() - 17);
 
             // Make an intent to start next activity while taking an extra which is the MAC address.
-            Intent i = new Intent(BluetoothActivity.this, HomeActivity.class);
+            Intent i = new Intent(BluetoothActivity.this, BluetoothService.class);
             i.putExtra(EXTRA_DEVICE_ADDRESS, address);
             i.putExtra(EXTRA_DEVICE_NAME, name);
-            startActivity(i);
+
+            try {
+                startService(i);
+                Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                startActivity(intent);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+
         }
     };
 

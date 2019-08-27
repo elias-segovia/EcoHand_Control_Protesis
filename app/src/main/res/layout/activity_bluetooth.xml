@@ -59,11 +59,9 @@
                 android:layout_marginLeft="49dp"
                 android:layout_marginRight="49dp"
                 android:layout_marginTop="50dp"
-                android:text="Seleccione el Bluetooth de la Prótesis"
                 android:textColor="#ffffff"
                 android:textSize="15.5dp"
-                android:textStyle="bold"
-                android:visibility="gone"/>
+                android:textStyle="bold" />
 
             <ListView
                 android:id="@+id/list"
@@ -71,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="fitCenter"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:background="#fff"
                 android:layout_margin="50dp"
                 ></ListView>
@@ -93,7 +91,39 @@
                 android:text="Si no hay dispositivos en la lista, por favor vincula tu dispositivo con el Bluetooth de la Prótesis"
                 android:textColor="#E3E3E3"
                 android:textSize="11dp"
-                android:textStyle="" />
+                android:textStyle=""
+                android:visibility="gone"
+                />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="40dp">
+
+            <customfonts.MyTextView_SF_Pro_Display_Medium
+                android:id="@+id/DesconectarID"
+                android:onClick="Desconectar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/rect_white"
+                android:paddingLeft="36dp"
+                android:paddingTop="11dp"
+                android:paddingRight="36dp"
+                android:paddingBottom="11dp"
+                android:layout_marginRight="20dp"
+                android:text="Desconectar"
+                android:textAllCaps="false"
+                android:textColor="#3b3b3b"
+                android:textSize="11.5sp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

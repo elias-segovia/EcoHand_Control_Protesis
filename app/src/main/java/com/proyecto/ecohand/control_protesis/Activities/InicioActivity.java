@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.proyecto.ecohand.control_protesis.R;
+import com.proyecto.ecohand.control_protesis.Services.BluetoothService;
 
 public class InicioActivity extends AppCompatActivity {
 
-    private boolean registrado, conectadoBT = false;
     private SharedPreferences prefs;
+    private static final String TAG = "InicioActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +37,14 @@ public class InicioActivity extends AppCompatActivity {
         startActivity(intent);
         prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean("ConexionBT", false);
+        editor.putBoolean("BluetoothService", false);
         editor.commit();
         finish();
         System.exit(0);
     }
 
     public void Inicio(View v) {
+
         Intent intentLogin = new Intent(this, LoginActivity.class);
         Intent intentBluetooth = new Intent(this, BluetoothActivity.class);
         Intent intentHome = new Intent(this, HomeActivity.class);
@@ -50,25 +53,16 @@ public class InicioActivity extends AppCompatActivity {
             prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
 
             if (prefs.contains("Registrado"))
-                if (prefs.getBoolean("Registrado", false))
-                    registrado = true;
-                else
-                    registrado = false;
-            if (prefs.contains("ConexionBT"))
-                if (prefs.getBoolean("ConexionBT", false))
-                    conectadoBT = true;
-                else
-                    conectadoBT = false;
-        } catch (Exception e) {
+                if (!prefs.getBoolean("Registrado", false))
+                    startActivity(intentLogin);
 
-        }
-
-        if (registrado == true) {
-            if (conectadoBT == true)
+            if (BluetoothService.connectedThread == null)
                 startActivity(intentBluetooth);
             else
-                startActivity(intentBluetooth);
-        } else
-            startActivity(intentLogin);
+                startActivity(intentHome);
+
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+        }
     }
 }
