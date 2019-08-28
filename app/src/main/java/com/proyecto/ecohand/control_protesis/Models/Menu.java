@@ -23,9 +23,9 @@ public class Menu {
                 , context.getResources().getString(R.string.subtitulo_bluetooth)
                 , R.drawable.bluetooth);
 
-        ItemMenu voz = new ItemMenu(context.getResources().getString(R.string.titulo_voz)
-                , context.getResources().getString(R.string.subtitulo_voz)
-                , R.drawable.voice);
+//        ItemMenu voz = new ItemMenu(context.getResources().getString(R.string.titulo_voz)
+//                , context.getResources().getString(R.string.subtitulo_voz)
+//                , R.drawable.voice);
 
         ItemMenu versionEcoHand = new ItemMenu(context.getResources().getString(R.string.titulo_version_echohand)
                 , context.getResources().getString(R.string.subtitulo_version_ecohand)
@@ -37,7 +37,7 @@ public class Menu {
 
 
         arrayMenu.add(bluetooth);
-        arrayMenu.add(voz);
+//        arrayMenu.add(voz);
         arrayMenu.add(versionEcoHand);
         arrayMenu.add(cerrarSesion);
 

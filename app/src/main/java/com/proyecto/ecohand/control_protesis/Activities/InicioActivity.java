@@ -52,11 +52,9 @@ public class InicioActivity extends AppCompatActivity {
         try {
             prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
 
-            if (prefs.contains("Registrado"))
-                if (!prefs.getBoolean("Registrado", false))
-                    startActivity(intentLogin);
-
-            if (BluetoothService.connectedThread == null)
+            if (!prefs.getBoolean("Registrado", false))
+                startActivity(intentLogin);
+            else if (BluetoothService.connectedThread == null)
                 startActivity(intentBluetooth);
             else
                 startActivity(intentHome);

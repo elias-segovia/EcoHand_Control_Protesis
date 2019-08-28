@@ -213,7 +213,10 @@ public class SecuenciasComunesActivity extends Activity {
 
                         for (Secuencia s : secuencias) {
                             if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
-                                // ejecutar metodo de la secuencia
+                                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
+                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo() + END);
+
+                                }
                             }
                         }
 

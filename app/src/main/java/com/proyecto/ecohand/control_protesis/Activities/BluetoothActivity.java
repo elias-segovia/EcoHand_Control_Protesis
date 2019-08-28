@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.proyecto.ecohand.control_protesis.Models.Menu;
+import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 import com.proyecto.ecohand.control_protesis.R;
 import com.proyecto.ecohand.control_protesis.Services.BluetoothService;
 

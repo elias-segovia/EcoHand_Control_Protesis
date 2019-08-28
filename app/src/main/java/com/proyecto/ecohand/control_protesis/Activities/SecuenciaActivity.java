@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +28,10 @@ import com.proyecto.ecohand.control_protesis.Models.Response.UsuarioResponse;
 import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 import com.proyecto.ecohand.control_protesis.R;
 import com.proyecto.ecohand.control_protesis.Services.ApiService;
+import com.proyecto.ecohand.control_protesis.Services.BluetoothService;
 import com.proyecto.ecohand.control_protesis.Services.UsuarioService;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +57,14 @@ public class SecuenciaActivity extends AppCompatActivity {
     private TextView comando;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
 
+    // #defines for identifying shared types between calling functions
+    private final static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
+    private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
+    private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
+
+
+    private static final String END = "\t\n";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +84,28 @@ public class SecuenciaActivity extends AppCompatActivity {
         Menu.setActivity(this);
         listMenu.setAdapter(Menu.getAdapter());
 
+        BluetoothService.hd = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                if (msg.what == MESSAGE_READ) {
+                    String readMessage = null;
+                    try {
+                        readMessage = new String((byte[]) msg.obj, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+//                    ReadBuffer.setText(readMessage);
+//                    lastMessage = readMessage;
+                }
+
+//                if (msg.what == CONNECTING_STATUS) {
+//                    if (msg.arg1 == 1)
+//                        estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+//                    else
+//                        estadoBT.setText("Fallo la Conexión");
+//                }
+            }
+        };
+
         SecuenciaAdapter adapter = new SecuenciaAdapter(this, secuencias);
 
         listaSecuenciasBtn.setAdapter(adapter);
@@ -87,6 +120,10 @@ public class SecuenciaActivity extends AppCompatActivity {
                 //            cambiar por los metodos de cada secuencia
                 comando.setText(secuencias.get(position).getNombre());
 
+                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
+                    BluetoothService.connectedThread .write("LOAD+" + secuencias.get(position).getCodigo() + END);
+
+                }
             }
         });
 
@@ -212,7 +249,10 @@ public class SecuenciaActivity extends AppCompatActivity {
 
                         for (Secuencia s : secuencias) {
                             if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
-                                // ejecutar metodo de la secuencia
+                                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
+                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo() + END);
+
+                                }
                             }
                         }
 

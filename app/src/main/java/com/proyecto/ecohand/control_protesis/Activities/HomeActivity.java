@@ -286,6 +286,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case RECOGNIZE_SPEECH_ACTIVITY:
                 if (resultCode == RESULT_OK && null != data) {
@@ -296,7 +297,13 @@ public class HomeActivity extends AppCompatActivity {
 
                         for (Secuencia s : secuencias) {
                             if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
-                                // ejecutar metodo de la secuencia
+
+                                comando.setText(s.getNombre());
+
+                                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
+                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo() + END);
+
+                                }
                             }
                         }
 
