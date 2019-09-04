@@ -76,15 +76,15 @@ public class BluetoothActivity extends AppCompatActivity {
                         intent = new Intent(BluetoothActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
+//                    case 1:
+//                        intent = new Intent(BluetoothActivity.this, VozActivity.class);
+//                        startActivity(intent);
+//                        break;
                     case 1:
-                        intent = new Intent(BluetoothActivity.this, VozActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
                         intent = new Intent(BluetoothActivity.this, VersionEcohandActivity.class);
                         startActivity(intent);
                         break;
-                    case 3:
+                    case 2:
                         openAlert();
                         break;
                 }
@@ -144,6 +144,9 @@ public class BluetoothActivity extends AppCompatActivity {
 
         if(BluetoothService.connectedThread != null){
             BluetoothService.connectedThread.cancel();
+            Intent i = new Intent(BluetoothActivity.this, BluetoothService.class);
+            stopService(i);
+            startActivity(getIntent());
         }
 
     }

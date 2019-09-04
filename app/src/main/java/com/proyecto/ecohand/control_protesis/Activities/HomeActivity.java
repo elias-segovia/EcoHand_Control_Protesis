@@ -43,6 +43,7 @@ import java.util.UUID;
 import com.proyecto.ecohand.control_protesis.Adapters.SecuenciaAdapter;
 import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 
+import customfonts.MyTextView_SF_Pro_Display_Medium;
 import customfonts.TextViewSFProDisplayRegular;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +64,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextViewSFProDisplayRegular cargaSecuencias;
     private String lastMessage;
     private boolean conectadoBT = false;
+    private MyTextView_SF_Pro_Display_Medium estado;
 
     private TextView comando, ReadBuffer, estadoBT;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
@@ -95,6 +97,7 @@ public class HomeActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbarID);
         comandoVoz = findViewById(R.id.microsfonoID);
         comando = findViewById(R.id.txtComandoID);
+        estado = findViewById(R.id.EstadoID);
         ReadBuffer = findViewById(R.id.readBufferID);
         estadoBT = findViewById(R.id.estadoBTID);
         cargaSecuencias = findViewById(R.id.SubtituloID);
@@ -118,6 +121,7 @@ public class HomeActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     ReadBuffer.setText(readMessage);
+                    estado.setText((String) (msg.obj));
                     lastMessage = readMessage;
                 }
 
@@ -182,15 +186,15 @@ public class HomeActivity extends AppCompatActivity {
                         intent = new Intent(HomeActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
+//                    case 1:
+//                        intent = new Intent(HomeActivity.this, VozActivity.class);
+//                        startActivity(intent);
+//                        break;
                     case 1:
-                        intent = new Intent(HomeActivity.this, VozActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
                         intent = new Intent(HomeActivity.this, VersionEcohandActivity.class);
                         startActivity(intent);
                         break;
-                    case 3:
+                    case 2:
                         openAlert();
                         break;
                 }

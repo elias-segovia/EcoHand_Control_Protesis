@@ -46,15 +46,15 @@ public class VersionEcohandActivity extends AppCompatActivity {
                         intent = new Intent(VersionEcohandActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
+//                    case 1:
+//                        intent = new Intent(VersionEcohandActivity.this, VozActivity.class);
+//                        startActivity(intent);
+//                        break;
                     case 1:
-                        intent = new Intent(VersionEcohandActivity.this, VozActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
                         intent = new Intent(VersionEcohandActivity.this, VersionEcohandActivity.class);
                         startActivity(intent);
                         break;
-                    case 3:
+                    case 2:
                         openAlert();
                         break;
                 }

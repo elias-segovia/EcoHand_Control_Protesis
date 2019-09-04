@@ -118,15 +118,15 @@ public class SecuenciasComunesActivity extends Activity {
                         intent = new Intent(SecuenciasComunesActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
+//                    case 1:
+//                        intent = new Intent(SecuenciasComunesActivity.this, VozActivity.class);
+//                        startActivity(intent);
+//                        break;
                     case 1:
-                        intent = new Intent(SecuenciasComunesActivity.this, VozActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
                         intent = new Intent(SecuenciasComunesActivity.this, VersionEcohandActivity.class);
                         startActivity(intent);
                         break;
-                    case 3:
+                    case 2:
                         openAlert();
                         break;
                 }

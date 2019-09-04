@@ -137,15 +137,15 @@ public class SecuenciaActivity extends AppCompatActivity {
                         intent = new Intent(SecuenciaActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
+//                    case 1:
+//                        intent = new Intent(SecuenciaActivity.this, VozActivity.class);
+//                        startActivity(intent);
+//                        break;
                     case 1:
-                        intent = new Intent(SecuenciaActivity.this, VozActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
                         intent = new Intent(SecuenciaActivity.this, VersionEcohandActivity.class);
                         startActivity(intent);
                         break;
-                    case 3:
+                    case 2:
                         openAlert();
                         break;
                 }

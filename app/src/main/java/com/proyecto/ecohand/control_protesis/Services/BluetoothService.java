@@ -170,6 +170,8 @@ public class BluetoothService extends Service {
         public void cancel() {
             try {
                 mmSocket.close();
+                connectedThread.cancel();
+                connectedThread = null;
             } catch (IOException e) {
             }
         }
