@@ -126,11 +126,17 @@ public class HomeActivity extends AppCompatActivity {
                 }
 
                 if (msg.what == CONNECTING_STATUS) {
-                    if (msg.arg1 == 1)
+                    if (msg.arg1 == 1) {
                         estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
-                    else
+                        estado.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+                    }
+                    else {
                         estadoBT.setText("Fallo la Conexión");
+                        estado.setText("Fallo la Conexión");
+                    }
                 }
+                else
+                    estado.setText((String)msg.obj);
             }
         };
 
@@ -182,19 +188,19 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0:
+                    case 1:
                         intent = new Intent(HomeActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
-//                    case 1:
-//                        intent = new Intent(HomeActivity.this, VozActivity.class);
-//                        startActivity(intent);
-//                        break;
-                    case 1:
-                        intent = new Intent(HomeActivity.this, VersionEcohandActivity.class);
+                    case 0:
+                        intent = new Intent(HomeActivity.this, HomeActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
+                        intent = new Intent(HomeActivity.this, VersionEcohandActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 3:
                         openAlert();
                         break;
                 }

@@ -29,6 +29,7 @@ import com.proyecto.ecohand.control_protesis.Services.BluetoothService;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import customfonts.MyTextView_SF_Pro_Display_Medium;
 import customfonts.TextViewSFProDisplayRegular;
 
 public class SecuenciasComunesActivity extends Activity {
@@ -39,6 +40,9 @@ public class SecuenciasComunesActivity extends Activity {
     private android.support.v7.widget.Toolbar toolbar;
     private boolean toolbarVisible = false;
     private ImageView comandoVoz;
+    private MyTextView_SF_Pro_Display_Medium estado;
+    private TextView comando, ReadBuffer, estadoBT;
+    private String lastMessage;
 
     private static final String END = "\t\n";
 
@@ -47,7 +51,6 @@ public class SecuenciasComunesActivity extends Activity {
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
 
-    private TextView comando;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
 
     @Override
@@ -60,6 +63,7 @@ public class SecuenciasComunesActivity extends Activity {
         toolbar = findViewById(R.id.toolbarID);
         comandoVoz = findViewById(R.id.microsfonoID);
         comando = findViewById(R.id.txtComandoID);
+        estado = findViewById(R.id.EstadoID);
 
         Menu.SetMenu(this.getBaseContext());
         Menu.setActivity(this);
@@ -95,16 +99,17 @@ public class SecuenciasComunesActivity extends Activity {
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-                    //ReadBuffer.setText(readMessage);
-                    //lastMessage = readMessage;
+                    ReadBuffer.setText(readMessage);
+                    estado.setText((String) (msg.obj));
+                    lastMessage = readMessage;
                 }
 
-                //if (msg.what == CONNECTING_STATUS) {
-                    //if (msg.arg1 == 1)
-                        //estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
-                    //else
-                        //estadoBT.setText("Fallo la Conexión");
-                //}
+                if (msg.what == CONNECTING_STATUS) {
+                    if (msg.arg1 == 1)
+                        estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+                    else
+                        estadoBT.setText("Fallo la Conexión");
+                }
             }
         };
 
@@ -114,19 +119,19 @@ public class SecuenciasComunesActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0:
+                    case 1:
                         intent = new Intent(SecuenciasComunesActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
-//                    case 1:
-//                        intent = new Intent(SecuenciasComunesActivity.this, VozActivity.class);
-//                        startActivity(intent);
-//                        break;
-                    case 1:
-                        intent = new Intent(SecuenciasComunesActivity.this, VersionEcohandActivity.class);
+                    case 0:
+                        intent = new Intent(SecuenciasComunesActivity.this, HomeActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
+                        intent = new Intent(SecuenciasComunesActivity.this, VersionEcohandActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 3:
                         openAlert();
                         break;
                 }
@@ -141,10 +146,10 @@ public class SecuenciasComunesActivity extends Activity {
 
     public void cargarSecuencias(final SecuenciaAdapter arrayAdapter) {
         arrayAdapter.addSecuencia(new Secuencia("Palma Abierta", "D100D200D300D400D500"));
-        arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada","D15AD25AD35AD45AD55A"));
-        arrayAdapter.addSecuencia(new Secuencia("Sostener Objeto","D15AD25AD35AD45AD55A"));
-        arrayAdapter.addSecuencia(new Secuencia("Pulsar Botón","D100D25AD35AD45AD55A"));
-        arrayAdapter.addSecuencia(new Secuencia("Hacer Click","D100D25AD35AD45AD55A"));
+        arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada","D1B4D2B4D3B4D4B4D5B4"));
+        arrayAdapter.addSecuencia(new Secuencia("Palma Media","D15AD25AD35AD45AD55A"));
+        arrayAdapter.addSecuencia(new Secuencia("Pulsar Botón","D100D2B4D300D400D500"));
+        arrayAdapter.addSecuencia(new Secuencia("Ok","D1B4D2B4D300D400D500"));
 
         arrayAdapter.notifyDataSetChanged();
     }

@@ -72,19 +72,19 @@ public class BluetoothActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0:
+                    case 1:
                         intent = new Intent(BluetoothActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
-//                    case 1:
-//                        intent = new Intent(BluetoothActivity.this, VozActivity.class);
-//                        startActivity(intent);
-//                        break;
-                    case 1:
-                        intent = new Intent(BluetoothActivity.this, VersionEcohandActivity.class);
+                    case 0:
+                        intent = new Intent(BluetoothActivity.this, HomeActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
+                        intent = new Intent(BluetoothActivity.this, VersionEcohandActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 3:
                         openAlert();
                         break;
                 }
@@ -155,7 +155,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView av, View v, int arg2, long arg3) {
 
-            textView1.setText("Conectando...");
+            //textView1.setText("Conectando...");
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             final String address = info.substring(info.length() - 17);

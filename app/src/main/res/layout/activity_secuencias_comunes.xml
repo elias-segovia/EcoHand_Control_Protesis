@@ -120,6 +120,22 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <customfonts.MyTextView_SF_Pro_Display_Medium
+                android:id="@+id/EstadoID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/rect_white_0"
+                android:text="Dispositivo Conectado!"
+                android:layout_marginBottom="14dp"
+                android:paddingLeft="56dp"
+                android:paddingTop="11dp"
+                android:paddingRight="56dp"
+                android:paddingBottom="11dp"
+                android:textAllCaps="false"
+                android:textColor="#3b3b3b"
+                android:textSize="11.5sp" />
+
             <ImageView
                 android:id="@+id/rightID"
                 android:layout_width="80dp"

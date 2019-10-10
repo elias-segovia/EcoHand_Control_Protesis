@@ -133,19 +133,19 @@ public class SecuenciaActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
-                    case 0:
+                    case 1:
                         intent = new Intent(SecuenciaActivity.this, BluetoothActivity.class);
                         startActivity(intent);
                         break;
-//                    case 1:
-//                        intent = new Intent(SecuenciaActivity.this, VozActivity.class);
-//                        startActivity(intent);
-//                        break;
-                    case 1:
-                        intent = new Intent(SecuenciaActivity.this, VersionEcohandActivity.class);
+                    case 0:
+                        intent = new Intent(SecuenciaActivity.this, HomeActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
+                        intent = new Intent(SecuenciaActivity.this, VersionEcohandActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 3:
                         openAlert();
                         break;
                 }

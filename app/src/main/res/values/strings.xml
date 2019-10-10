@@ -14,6 +14,9 @@
     <string name="title_activity_home2">Home2Activity</string>
 
     <!--String para el menu-->
+    <string name="titulo_home">Home</string>
+    <string name="subtitulo_home">Mis Secuencias</string>
+
     <string name="titulo_bluetooth">Conexión Bluetooth</string>
     <string name="subtitulo_bluetooth">Configurar conexión con la prótesis</string>
 

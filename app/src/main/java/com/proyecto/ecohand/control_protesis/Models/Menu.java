@@ -12,12 +12,16 @@ import java.util.ArrayList;
 
 public class Menu {
 
-    private static ArrayList<ItemMenu> arrayMenu = new ArrayList<ItemMenu>();
+    private static ArrayList<ItemMenu> arrayMenu = new ArrayList<>();
     private static MenuAdapter menuAdapter = new MenuAdapter();
 
     public static void SetMenu(Context context) {
 
         arrayMenu.clear();
+
+        ItemMenu home = new ItemMenu(context.getResources().getString(R.string.titulo_home)
+                , context.getResources().getString(R.string.subtitulo_home)
+                , R.drawable.home);
 
         ItemMenu bluetooth = new ItemMenu(context.getResources().getString(R.string.titulo_bluetooth)
                 , context.getResources().getString(R.string.subtitulo_bluetooth)
@@ -36,6 +40,7 @@ public class Menu {
                 , R.drawable.usuario);
 
 
+        arrayMenu.add(home);
         arrayMenu.add(bluetooth);
 //        arrayMenu.add(voz);
         arrayMenu.add(versionEcoHand);
