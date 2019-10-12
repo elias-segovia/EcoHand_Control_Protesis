@@ -147,9 +147,9 @@ public class SecuenciasComunesActivity extends Activity {
     public void cargarSecuencias(final SecuenciaAdapter arrayAdapter) {
         arrayAdapter.addSecuencia(new Secuencia("Palma Abierta", "D100D200D300D400D500"));
         arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada","D1B4D2B4D3B4D4B4D5B4"));
-        arrayAdapter.addSecuencia(new Secuencia("Palma Media","D15AD25AD35AD45AD55A"));
         arrayAdapter.addSecuencia(new Secuencia("Pulsar Boton","D1B4D200D3B4D4B4D5B4"));
         arrayAdapter.addSecuencia(new Secuencia("Okay","D1B4D2B4D300D400D500"));
+        arrayAdapter.addSecuencia(new Secuencia("Piedra Papel o Tijera","PPT"));
 
         arrayAdapter.notifyDataSetChanged();
     }
@@ -219,8 +219,10 @@ public class SecuenciasComunesActivity extends Activity {
                         for (Secuencia s : secuencias) {
                             if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
                                 if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
+                                    if(s.getNombre() == "Piedra Papel o Tijera")
+                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo());
+                                    else
                                     BluetoothService.connectedThread .write("LOAD+" + s.getCodigo() + END);
-
                                 }
                             }
                         }
