@@ -35,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import customfonts.MyTextView_SF_Pro_Display_Medium;
 import customfonts.TextViewSFProDisplayRegular;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,6 +54,7 @@ public class SecuenciaActivity extends AppCompatActivity {
     private ImageView comandoVoz;
     private ProgressBar spinner;
     private TextViewSFProDisplayRegular cargaSecuencias;
+    private MyTextView_SF_Pro_Display_Medium estado;
 
     private TextView comando;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
@@ -77,6 +79,7 @@ public class SecuenciaActivity extends AppCompatActivity {
         comando = findViewById(R.id.txtComandoID);
         cargaSecuencias = findViewById(R.id.SubtituloID);
         spinner = findViewById(R.id.progressBarID);
+        estado = findViewById(R.id.EstadoID);
         spinner.getIndeterminateDrawable().setColorFilter(Color.rgb(128, 139, 150), PorterDuff.Mode.SRC_IN);
         spinner.setVisibility(View.VISIBLE);
 
@@ -93,16 +96,23 @@ public class SecuenciaActivity extends AppCompatActivity {
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-//                    ReadBuffer.setText(readMessage);
-//                    lastMessage = readMessage;
+                    //ReadBuffer.setText(readMessage);
+                    estado.setText((String) (msg.obj));
+                    //lastMessage = readMessage;
                 }
 
-//                if (msg.what == CONNECTING_STATUS) {
-//                    if (msg.arg1 == 1)
-//                        estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
-//                    else
-//                        estadoBT.setText("Fallo la Conexión");
-//                }
+                if (msg.what == CONNECTING_STATUS) {
+                    if (msg.arg1 == 1) {
+                        //estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+                        estado.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+                    }
+                    else {
+                        //estadoBT.setText("Fallo la Conexión");
+                        estado.setText("Fallo la Conexión");
+                    }
+                }
+                else
+                    estado.setText((String)msg.obj);
             }
         };
 

@@ -40,6 +40,19 @@
                     android:onClick="Menu"
                     android:src="@drawable/menu" />
 
+                <customfonts.MyTextView_SF_Pro_Display_Semibold
+                    android:id="@+id/tituloID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginRight="55dp"
+                    android:text="Secuencias Comunes"
+                    android:textColor="#000"
+                    android:textSize="15.5dp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
@@ -49,23 +62,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="45dp"
             android:gravity="center"
             android:orientation="vertical">
-
-            <customfonts.MyTextView_SF_Pro_Display_Semibold
-                android:id="@+id/tituloID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="49dp"
-                android:layout_marginRight="49dp"
-                android:layout_marginTop="5dp"
-                android:text="Secuencias Comunes"
-                android:textColor="#ffffff"
-                android:textSize="15.5dp"
-                android:textStyle="bold" />
 
 
             <ListView
@@ -93,7 +92,7 @@
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="420dp"
+                android:layout_marginTop="320dp"
                 android:onClick="ComandoVoz"
                 android:src="@drawable/microfonoblanco" />
 
@@ -126,11 +125,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/rect_white_0"
-                android:text="Dispositivo Conectado!"
                 android:layout_marginBottom="14dp"
-                android:paddingLeft="56dp"
+                android:paddingLeft="36dp"
                 android:paddingTop="11dp"
-                android:paddingRight="56dp"
+                android:paddingRight="36dp"
                 android:paddingBottom="11dp"
                 android:textAllCaps="false"
                 android:textColor="#3b3b3b"
@@ -141,7 +139,6 @@
                 android:layout_width="80dp"
                 android:layout_height="40dp"
                 android:layout_gravity="right"
-                android:layout_marginLeft="250dp"
                 android:layout_marginTop="10dp"
                 android:onClick="right"
                 android:src="@drawable/right" />

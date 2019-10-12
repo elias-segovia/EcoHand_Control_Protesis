@@ -17,8 +17,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="144.7dp"
-            android:layout_height="144.7dp"
+            android:layout_width="143dp"
+            android:layout_height="185dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="logo"
             android:scaleType="fitCenter"

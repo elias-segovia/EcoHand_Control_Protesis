@@ -148,8 +148,8 @@ public class SecuenciasComunesActivity extends Activity {
         arrayAdapter.addSecuencia(new Secuencia("Palma Abierta", "D100D200D300D400D500"));
         arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada","D1B4D2B4D3B4D4B4D5B4"));
         arrayAdapter.addSecuencia(new Secuencia("Palma Media","D15AD25AD35AD45AD55A"));
-        arrayAdapter.addSecuencia(new Secuencia("Pulsar Botón","D100D2B4D300D400D500"));
-        arrayAdapter.addSecuencia(new Secuencia("Ok","D1B4D2B4D300D400D500"));
+        arrayAdapter.addSecuencia(new Secuencia("Pulsar Boton","D1B4D200D3B4D4B4D5B4"));
+        arrayAdapter.addSecuencia(new Secuencia("Okay","D1B4D2B4D300D400D500"));
 
         arrayAdapter.notifyDataSetChanged();
     }

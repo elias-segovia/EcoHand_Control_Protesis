@@ -38,6 +38,19 @@
                     android:onClick="Menu"
                     android:src="@drawable/menu" />
 
+
+                <customfonts.MyTextView_SF_Pro_Display_Semibold
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="56dp"
+                    android:layout_marginRight="55dp"
+                    android:text="Dispositivos Vinculados"
+                    android:textColor="#000"
+                    android:textSize="15.5dp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
