@@ -81,34 +81,44 @@ public class SecuenciasComunesActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //            cambiar por los metodos de cada secuencia
-                comando.setText(secuencias.get(position).getNombre());
+                //comando.setText(secuencias.get(position).getNombre());
 
-                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
-                    BluetoothService.connectedThread .write("LOAD+" + secuencias.get(position).getCodigo() + END);
-
+                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(position).getCodigo() + END);
+                    estado.setText(secuencias.get(position).getNombre());
                 }
             }
         });
 
         BluetoothService.hd = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                if (msg.what == MESSAGE_READ) {
-                    String readMessage = null;
-                    try {
-                        readMessage = new String((byte[]) msg.obj, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    ReadBuffer.setText(readMessage);
-                    estado.setText((String) (msg.obj));
-                    lastMessage = readMessage;
-                }
 
-                if (msg.what == CONNECTING_STATUS) {
-                    if (msg.arg1 == 1)
-                        estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
-                    else
-                        estadoBT.setText("Fallo la Conexión");
+
+            public void handleMessage(android.os.Message msg) {
+                try
+
+                {
+                    if (msg.what == MESSAGE_READ) {
+                        String readMessage = null;
+                        try {
+                            readMessage = new String((byte[]) msg.obj, "UTF-8");
+                            estado.setText(readMessage);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        //ReadBuffer.setText(readMessage);
+
+                        lastMessage = readMessage;
+                    }
+
+                    if (msg.what == CONNECTING_STATUS) {
+                        if (msg.arg1 == 1) {
+                            estado.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+                        } else {
+                            estado.setText("Fallo la Conexión");
+                        }
+                    }
+                } catch (Exception e) {
+                    estado.setText(e.getMessage());
                 }
             }
         };
@@ -146,10 +156,10 @@ public class SecuenciasComunesActivity extends Activity {
 
     public void cargarSecuencias(final SecuenciaAdapter arrayAdapter) {
         arrayAdapter.addSecuencia(new Secuencia("Palma Abierta", "D100D200D300D400D500"));
-        arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada","D1B4D2B4D3B4D4B4D5B4"));
-        arrayAdapter.addSecuencia(new Secuencia("Pulsar Boton","D1B4D200D3B4D4B4D5B4"));
-        arrayAdapter.addSecuencia(new Secuencia("Okay","D1B4D2B4D300D400D500"));
-        arrayAdapter.addSecuencia(new Secuencia("Piedra Papel o Tijera","PPT"));
+        arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada", "D1B4D2B4D3B4D4B4D5B4"));
+        arrayAdapter.addSecuencia(new Secuencia("Pulsar Boton", "D1B4D200D3B4D4B4D5B4"));
+        arrayAdapter.addSecuencia(new Secuencia("Okay", "D1B4D2B4D300D400D500"));
+        arrayAdapter.addSecuencia(new Secuencia("Piedra Papel o Tijera", "PPT"));
 
         arrayAdapter.notifyDataSetChanged();
     }
@@ -214,27 +224,33 @@ public class SecuenciasComunesActivity extends Activity {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String respuesta = speech.get(0);
 
-                    if (respuesta.toUpperCase().indexOf("PARAR") <= -1) {
+                    if (respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
 
                         for (Secuencia s : secuencias) {
                             if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
-                                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
-                                    if(s.getNombre() == "Piedra Papel o Tijera")
-                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo());
+                                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+
+                                    if (respuesta == "PARAR")
+                                        BluetoothService.connectedThread.write("PARAR");
+                                    else if (respuesta == "CONTINUAR")
+                                        BluetoothService.connectedThread.write("CONTINUAR");
+                                    else if (s.getNombre() == "Piedra Papel o Tijera")
+                                        BluetoothService.connectedThread.write("LOAD+" + s.getCodigo());
                                     else
-                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo() + END);
+                                        BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
                                 }
+                                estado.setText(respuesta);
                             }
                         }
 
                         ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
                     }
 
-                    comando.setText(respuesta);
+                    //comando.setText(respuesta);
                 }
                 break;
             default:
-                comando.setText("Esa Secuencia no existe!");
+                estado.setText("Esa Secuencia no existe!");
                 break;
         }
     }
@@ -243,5 +259,13 @@ public class SecuenciasComunesActivity extends Activity {
         Intent intent = new Intent(SecuenciasComunesActivity.this, HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void PreguntarEstado(View view) {
+
+        if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+            BluetoothService.connectedThread.write("STATUS");
+
+        }
     }
 }

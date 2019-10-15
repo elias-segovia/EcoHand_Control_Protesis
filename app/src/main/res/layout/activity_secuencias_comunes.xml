@@ -121,15 +121,14 @@
 
             <customfonts.MyTextView_SF_Pro_Display_Medium
                 android:id="@+id/EstadoID"
+                android:onClick="PreguntarEstado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textAlignment="center"
                 android:background="@drawable/rect_white_0"
                 android:layout_marginBottom="14dp"
-                android:paddingLeft="36dp"
-                android:paddingTop="11dp"
-                android:paddingRight="36dp"
-                android:paddingBottom="11dp"
+                android:padding="8dp"
                 android:textAllCaps="false"
                 android:textColor="#3b3b3b"
                 android:textSize="11.5sp" />

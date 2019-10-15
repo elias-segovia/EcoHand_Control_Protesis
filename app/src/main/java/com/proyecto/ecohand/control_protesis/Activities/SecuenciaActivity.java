@@ -88,31 +88,35 @@ public class SecuenciaActivity extends AppCompatActivity {
         listMenu.setAdapter(Menu.getAdapter());
 
         BluetoothService.hd = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                if (msg.what == MESSAGE_READ) {
-                    String readMessage = null;
-                    try {
-                        readMessage = new String((byte[]) msg.obj, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    //ReadBuffer.setText(readMessage);
-                    estado.setText((String) (msg.obj));
-                    //lastMessage = readMessage;
-                }
 
-                if (msg.what == CONNECTING_STATUS) {
-                    if (msg.arg1 == 1) {
-                        //estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
-                        estado.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+
+            public void handleMessage(android.os.Message msg) {
+                try
+
+                {
+                    if (msg.what == MESSAGE_READ) {
+                        String readMessage = null;
+                        try {
+                            readMessage = new String((byte[]) msg.obj, "UTF-8");
+                            estado.setText(readMessage);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        //ReadBuffer.setText(readMessage);
+
+                        //lastMessage = readMessage;
                     }
-                    else {
-                        //estadoBT.setText("Fallo la Conexión");
-                        estado.setText("Fallo la Conexión");
+
+                    if (msg.what == CONNECTING_STATUS) {
+                        if (msg.arg1 == 1) {
+                            estado.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+                        } else {
+                            estado.setText("Fallo la Conexión");
+                        }
                     }
+                } catch (Exception e) {
+                    estado.setText(e.getMessage());
                 }
-                else
-                    estado.setText((String)msg.obj);
             }
         };
 
@@ -128,11 +132,11 @@ public class SecuenciaActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //            cambiar por los metodos de cada secuencia
-                comando.setText(secuencias.get(position).getNombre());
+                //comando.setText(secuencias.get(position).getNombre());
 
-                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
-                    BluetoothService.connectedThread .write("LOAD+" + secuencias.get(position).getCodigo() + END);
-
+                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(position).getCodigo() + END);
+                    estado.setText(secuencias.get(position).getNombre());
                 }
             }
         });
@@ -179,7 +183,7 @@ public class SecuenciaActivity extends AppCompatActivity {
             public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
 
                 for (SecuenciaResponse s : response.body()) {
-                    arrayAdapter.addSecuencia(new Secuencia(s.getNombre(),s.getCodigoEjecutable()));
+                    arrayAdapter.addSecuencia(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
 //                    titles.add(s.getNombre());
                 }
 
@@ -249,19 +253,27 @@ public class SecuenciaActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         switch (requestCode) {
             case RECOGNIZE_SPEECH_ACTIVITY:
                 if (resultCode == RESULT_OK && null != data) {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String respuesta = speech.get(0);
 
-                    if (respuesta.toUpperCase().indexOf("PARAR") <= -1) {
+                    if (respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
 
                         for (Secuencia s : secuencias) {
                             if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
-                                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
-                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo() + END);
 
+                                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+
+                                    if (respuesta == "PARAR")
+                                        BluetoothService.connectedThread.write("PARAR");
+                                    else if (respuesta == "CONTINUAR")
+                                        BluetoothService.connectedThread.write("CONTINUAR");
+                                    else
+                                        BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
+                                    estado.setText(respuesta);
                                 }
                             }
                         }
@@ -269,11 +281,11 @@ public class SecuenciaActivity extends AppCompatActivity {
                         ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
                     }
 
-                    comando.setText(respuesta);
+                    //comando.setText(respuesta);
                 }
                 break;
             default:
-                comando.setText("Esa Secuencia no existe!");
+                estado.setText("Esa Secuencia no existe!");
                 break;
         }
     }
@@ -308,5 +320,13 @@ public class SecuenciaActivity extends AppCompatActivity {
         Intent intent = new Intent(SecuenciaActivity.this, HomeActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    public void PreguntarEstado(View view) {
+
+        if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+            BluetoothService.connectedThread.write("STATUS");
+
+        }
     }
 }

@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity {
     private boolean conectadoBT = false;
     private MyTextView_SF_Pro_Display_Medium estado;
 
-    private TextView comando, ReadBuffer, estadoBT;
+    private TextView comando;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
 
     private BluetoothAdapter btAdapter = null;
@@ -98,8 +98,6 @@ public class HomeActivity extends AppCompatActivity {
         comandoVoz = findViewById(R.id.microsfonoID);
         comando = findViewById(R.id.txtComandoID);
         estado = findViewById(R.id.EstadoID);
-        ReadBuffer = findViewById(R.id.readBufferID);
-        estadoBT = findViewById(R.id.estadoBTID);
         cargaSecuencias = findViewById(R.id.SubtituloID);
         spinner = findViewById(R.id.progressBarID);
         spinner.getIndeterminateDrawable().setColorFilter(Color.rgb(128, 139, 150), PorterDuff.Mode.SRC_IN);
@@ -112,33 +110,38 @@ public class HomeActivity extends AppCompatActivity {
         btAdapter = BluetoothAdapter.getDefaultAdapter();
 
         BluetoothService.hd = new Handler() {
-            public void handleMessage(android.os.Message msg) {
-                if (msg.what == MESSAGE_READ) {
-                    String readMessage = null;
-                    try {
-                        readMessage = new String((byte[]) msg.obj, "UTF-8");
-                    } catch (UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    ReadBuffer.setText(readMessage);
-                    estado.setText((String) (msg.obj));
-                    lastMessage = readMessage;
-                }
 
-                if (msg.what == CONNECTING_STATUS) {
-                    if (msg.arg1 == 1) {
-                        estadoBT.setText("Conectado al Dispositivo: " + (String) (msg.obj));
-                        estado.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+
+            public void handleMessage(android.os.Message msg) {
+                try
+
+                {
+                    if (msg.what == MESSAGE_READ) {
+                        String readMessage = null;
+                        try {
+                            readMessage = new String((byte[]) msg.obj, "UTF-8");
+                            estado.setText(readMessage);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        //ReadBuffer.setText(readMessage);
+
+                        lastMessage = readMessage;
                     }
-                    else {
-                        estadoBT.setText("Fallo la Conexión");
-                        estado.setText("Fallo la Conexión");
+
+                    if (msg.what == CONNECTING_STATUS) {
+                        if (msg.arg1 == 1) {
+                            estado.setText("Conectado al Dispositivo: " + (String) (msg.obj));
+                        } else {
+                            estado.setText("Fallo la Conexión");
+                        }
                     }
+                } catch (Exception e) {
+                    estado.setText(e.getMessage());
                 }
-                else
-                    estado.setText((String)msg.obj);
             }
         };
+
 
         //try {
         // SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
@@ -166,17 +169,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //            cambiar por los metodos de cada secuencia
-                comando.setText(secuencias.get(position).getNombre());
 
-                //if( isMyServiceRunning(BluetoothService.class) ){
-                  //  getSystemService(BluetoothService.class).getConnectedThread().write("LOAD+" + secuencias.get(position).getCodigo() + END);
-
-                //}
-
-                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
-                    BluetoothService.connectedThread .write("LOAD+" + secuencias.get(position).getCodigo() + END);
-
+                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(position).getCodigo() + END);
+                    estado.setText(secuencias.get(position).getNombre());
                 }
 
             }
@@ -303,15 +299,37 @@ public class HomeActivity extends AppCompatActivity {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String respuesta = speech.get(0);
 
-                    if (respuesta.toUpperCase().indexOf("PARAR") <= -1) {
+                    if (respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
 
                         for (Secuencia s : secuencias) {
                             if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
 
-                                comando.setText(s.getNombre());
+                                //comando.setText(s.getNombre());
 
-                                if (BluetoothService.connectedThread  != null) { //First check to make sure thread created
-                                    BluetoothService.connectedThread .write("LOAD+" + s.getCodigo() + END);
+                                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+                                    //BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
+
+                                    if(respuesta == "PARAR")
+                                        BluetoothService.connectedThread .write("PARAR");
+                                    else {
+                                        if (respuesta == "CONTINUAR")
+                                            BluetoothService.connectedThread .write("CONTINUAR");
+                                        else
+                                            BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
+                                    }
+                                    estado.setText(respuesta);
+
+
+//                                    switch (respuesta) {
+//                                        case "PARAR":
+//                                            BluetoothService.connectedThread.write("PARAR");
+//                                            break;
+//                                        case "CONTINUAR":
+//                                            BluetoothService.connectedThread.write("CONTINUAR");
+//                                            break;
+//                                        default:
+//                                            BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
+//                                    }
 
                                 }
                             }
@@ -320,11 +338,10 @@ public class HomeActivity extends AppCompatActivity {
                         ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
                     }
 
-                    comando.setText(respuesta);
                 }
                 break;
             default:
-                comando.setText("Esa Secuencia no existe!");
+                estado.setText("Esa Secuencia no existe!");
                 break;
         }
     }
@@ -367,5 +384,13 @@ public class HomeActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+
+    public void PreguntarEstado(View view) {
+
+        if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+            BluetoothService.connectedThread.write("STATUS");
+
+        }
+    }
 
 }
