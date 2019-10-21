@@ -157,8 +157,9 @@ public class SecuenciasComunesActivity extends Activity {
     public void cargarSecuencias(final SecuenciaAdapter arrayAdapter) {
         arrayAdapter.addSecuencia(new Secuencia("Palma Abierta", "D100D200D300D400D500"));
         arrayAdapter.addSecuencia(new Secuencia("Palma Cerrada", "D1B4D2B4D3B4D4B4D5B4"));
-        arrayAdapter.addSecuencia(new Secuencia("Pulsar Boton", "D1B4D200D3B4D4B4D5B4"));
-        arrayAdapter.addSecuencia(new Secuencia("Okay", "D1B4D2B4D300D400D500"));
+        arrayAdapter.addSecuencia(new Secuencia("Señalar", "D1B4D200D3B4D4B4D5B4"));
+        arrayAdapter.addSecuencia(new Secuencia("Pinzar", "D1B4D2B4D300D400D500"));
+        // agregar SOSTERNER la secuencia del FSR
         arrayAdapter.addSecuencia(new Secuencia("Piedra Papel o Tijera", "PPT"));
 
         arrayAdapter.notifyDataSetChanged();
@@ -224,29 +225,35 @@ public class SecuenciasComunesActivity extends Activity {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String respuesta = speech.get(0);
 
-                    if (respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
+                    if (!respuesta.isEmpty() && respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
 
-                        for (Secuencia s : secuencias) {
-                            if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
-                                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+                        boolean flag = true;
+                        for (int i = 0; i < secuencias.size() && flag == true; i++) {
+                            //if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
 
-                                    if (respuesta == "PARAR")
-                                        BluetoothService.connectedThread.write("PARAR");
-                                    else if (respuesta == "CONTINUAR")
-                                        BluetoothService.connectedThread.write("CONTINUAR");
-                                    else if (s.getNombre() == "Piedra Papel o Tijera")
-                                        BluetoothService.connectedThread.write("LOAD+" + s.getCodigo());
+                            flag = false;
+                            if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+
+                                if (respuesta.toUpperCase().compareTo("PARAR") == 0)
+                                    BluetoothService.connectedThread.write("PARAR");
+                                else if (respuesta.toUpperCase().compareTo("CONTINUAR") == 0)
+                                    BluetoothService.connectedThread.write("CONTINUAR");
+                                else if (respuesta.toUpperCase().compareTo(secuencias.get(i).getNombre().toUpperCase()) == 0) {
+                                    if (secuencias.get(i).getNombre().compareTo("Piedra Papel o Tijera") == 0)
+                                        BluetoothService.connectedThread.write("LOAD+" + secuencias.get(i).getCodigo());
                                     else
-                                        BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
-                                }
-                                estado.setText(respuesta);
+                                        BluetoothService.connectedThread.write("LOAD+" + secuencias.get(i).getCodigo() + END);
+                                } else
+                                    flag = true;
+
                             }
+
                         }
+                        estado.setText(respuesta);
 
                         ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
                     }
 
-                    //comando.setText(respuesta);
                 }
                 break;
             default:

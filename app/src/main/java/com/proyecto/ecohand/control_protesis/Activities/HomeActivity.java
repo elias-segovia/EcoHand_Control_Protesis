@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
     private ListView listaSecuenciasBtn;
     private ListView listMenu;
     private ArrayList<String> titles = new ArrayList<>();
-    private ArrayList<Secuencia> secuencias = new ArrayList<Secuencia>();
+    private ArrayList<Secuencia> secuencias = new ArrayList<>();
     private android.support.v7.widget.Toolbar toolbar;
     private boolean toolbarVisible = false;
     private ImageView comandoVoz;
@@ -65,6 +65,8 @@ public class HomeActivity extends AppCompatActivity {
     private String lastMessage;
     private boolean conectadoBT = false;
     private MyTextView_SF_Pro_Display_Medium estado;
+
+    //private SecuenciaAdapter secuenciaAdapterCache = new SecuenciaAdapter(this, secuencias);
 
     private TextView comando;
     private static final int RECOGNIZE_SPEECH_ACTIVITY = 1;
@@ -221,9 +223,12 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
 
+                InicioActivity.secuenciaCache.clear();
                 for (SecuenciaResponse s : response.body()) {
                     arrayAdapter.addSecuencia(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
 //                    titles.add(s.getNombre());
+                    //secuenciaAdapterCache.addSecuencia(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
+                    InicioActivity.secuenciaCache.add(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
                 }
 
                 arrayAdapter.notifyDataSetChanged();
@@ -233,7 +238,14 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<SecuenciaResponse>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                // traer las de cache
+                if (arrayAdapter.isEmpty()) {
+                    arrayAdapter.addAll(InicioActivity.secuenciaCache);
+                    arrayAdapter.notifyDataSetChanged();
+                    cargaSecuencias.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
+                }
+                //Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -299,41 +311,28 @@ public class HomeActivity extends AppCompatActivity {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String respuesta = speech.get(0);
 
-                    if (respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
+                    if (!respuesta.isEmpty() && respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
 
-                        for (Secuencia s : secuencias) {
-                            if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
+                        boolean flag = true;
+                        for (int i = 0; i < secuencias.size() && flag == true; i++) {
+                            //if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
 
-                                //comando.setText(s.getNombre());
+                            flag = false;
+                            if (BluetoothService.connectedThread != null) { //First check to make sure thread created
 
-                                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
-                                    //BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
+                                if (respuesta.toUpperCase().compareTo("PARAR") == 0)
+                                    BluetoothService.connectedThread.write("PARAR");
+                                else if (respuesta.toUpperCase().compareTo("CONTINUAR") == 0)
+                                    BluetoothService.connectedThread.write("CONTINUAR");
+                                else if (respuesta.toUpperCase().compareTo(secuencias.get(i).getNombre().toUpperCase()) == 0) {
+                                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(i).getCodigo() + END);
+                                } else
+                                    flag = true;
 
-                                    if(respuesta == "PARAR")
-                                        BluetoothService.connectedThread .write("PARAR");
-                                    else {
-                                        if (respuesta == "CONTINUAR")
-                                            BluetoothService.connectedThread .write("CONTINUAR");
-                                        else
-                                            BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
-                                    }
-                                    estado.setText(respuesta);
-
-
-//                                    switch (respuesta) {
-//                                        case "PARAR":
-//                                            BluetoothService.connectedThread.write("PARAR");
-//                                            break;
-//                                        case "CONTINUAR":
-//                                            BluetoothService.connectedThread.write("CONTINUAR");
-//                                            break;
-//                                        default:
-//                                            BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
-//                                    }
-
-                                }
                             }
+
                         }
+                        estado.setText(respuesta);
 
                         ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
                     }

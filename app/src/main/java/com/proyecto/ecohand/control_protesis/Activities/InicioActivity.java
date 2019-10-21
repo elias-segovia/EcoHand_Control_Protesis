@@ -8,13 +8,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.proyecto.ecohand.control_protesis.Models.Secuencia;
 import com.proyecto.ecohand.control_protesis.R;
 import com.proyecto.ecohand.control_protesis.Services.BluetoothService;
+
+import java.util.ArrayList;
 
 public class InicioActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private static final String TAG = "InicioActivity";
+    public static ArrayList<Secuencia> secuenciaCache = new ArrayList<>();
+    public static ArrayList<Secuencia> allsecuenciaCache = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

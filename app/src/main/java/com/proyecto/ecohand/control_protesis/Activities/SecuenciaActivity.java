@@ -182,9 +182,11 @@ public class SecuenciaActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
 
+                InicioActivity.allsecuenciaCache.clear();
                 for (SecuenciaResponse s : response.body()) {
                     arrayAdapter.addSecuencia(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
 //                    titles.add(s.getNombre());
+                    InicioActivity.allsecuenciaCache.add(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
                 }
 
                 arrayAdapter.notifyDataSetChanged();
@@ -194,7 +196,13 @@ public class SecuenciaActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<SecuenciaResponse>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
+                if (arrayAdapter.isEmpty()) {
+                    arrayAdapter.addAll(InicioActivity.allsecuenciaCache);
+                    arrayAdapter.notifyDataSetChanged();
+                    cargaSecuencias.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
+                }
+                //Toast.makeText(getApplicationContext(), "Error!", Toast.LENGTH_SHORT).show();
             }
         });
     }
