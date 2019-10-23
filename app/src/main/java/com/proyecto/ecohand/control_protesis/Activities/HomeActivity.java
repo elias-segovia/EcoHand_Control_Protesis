@@ -26,6 +26,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.proyecto.ecohand.control_protesis.Models.Menu;
 import com.proyecto.ecohand.control_protesis.Models.Request.UsuarioRequest;
 import com.proyecto.ecohand.control_protesis.Models.Response.SecuenciaResponse;
@@ -50,6 +52,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import java.lang.reflect.Type;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -87,6 +90,10 @@ public class HomeActivity extends AppCompatActivity {
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
     private static final UUID BTMODULEUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"); // "random" unique identifier
+
+
+    // Secuencia cache
+    private ArrayList<Secuencia> secuenciasCache = new ArrayList<>();
 
 
     @Override
@@ -214,7 +221,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getSecuencias(final SecuenciaAdapter arrayAdapter) {
-        SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
+        final SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
         String username = prefs.getString("UserName", "");
         UsuarioRequest usuarioRequest = new UsuarioRequest(username);
         Call<List<SecuenciaResponse>> call = ApiService.getSecuenciaService().getSecuencias(usuarioRequest);
@@ -223,12 +230,22 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
 
-                InicioActivity.secuenciaCache.clear();
+                secuenciasCache.clear();
                 for (SecuenciaResponse s : response.body()) {
                     arrayAdapter.addSecuencia(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
-//                    titles.add(s.getNombre());
-                    //secuenciaAdapterCache.addSecuencia(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
-                    InicioActivity.secuenciaCache.add(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
+                    secuenciasCache.add(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
+                }
+
+                if(!secuenciasCache.isEmpty()){
+                    try {
+                        Gson gson = new Gson();
+                        String json = gson.toJson(secuenciasCache);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("Secuencias",json );
+                        editor.commit();
+                    }catch (Exception e){
+                        estado.setText(e.getMessage());
+                    }
                 }
 
                 arrayAdapter.notifyDataSetChanged();
@@ -238,9 +255,19 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<SecuenciaResponse>> call, Throwable t) {
-                // traer las de cache
+                Gson gson = new Gson();
+                // traer las secuencias de cache
                 if (arrayAdapter.isEmpty()) {
-                    arrayAdapter.addAll(InicioActivity.secuenciaCache);
+
+                        String json = prefs.getString("SecuenciasAll","");
+                        if(!json.isEmpty()) {
+                            Type type = new TypeToken<List<Secuencia>>() {
+                            }.getType();
+                            secuenciasCache = gson.fromJson(json, type);
+                        }else
+                            estado.setText("La cache esta vacia");
+
+                    arrayAdapter.addAll(secuenciasCache);
                     arrayAdapter.notifyDataSetChanged();
                     cargaSecuencias.setVisibility(View.GONE);
                     spinner.setVisibility(View.GONE);

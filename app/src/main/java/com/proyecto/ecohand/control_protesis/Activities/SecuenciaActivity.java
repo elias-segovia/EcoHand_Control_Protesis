@@ -21,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.proyecto.ecohand.control_protesis.Adapters.SecuenciaAdapter;
 import com.proyecto.ecohand.control_protesis.Models.Menu;
 import com.proyecto.ecohand.control_protesis.Models.Response.SecuenciaResponse;
@@ -32,6 +34,7 @@ import com.proyecto.ecohand.control_protesis.Services.BluetoothService;
 import com.proyecto.ecohand.control_protesis.Services.UsuarioService;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,6 +66,9 @@ public class SecuenciaActivity extends AppCompatActivity {
     private final static int REQUEST_ENABLE_BT = 1; // used to identify adding bluetooth names
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
     private final static int CONNECTING_STATUS = 3; // used in bluetooth handler to identify message status
+
+    // Secuencia cache
+    private ArrayList<Secuencia> secuenciasCache = new ArrayList<>();
 
 
     private static final String END = "\t\n";
@@ -175,6 +181,7 @@ public class SecuenciaActivity extends AppCompatActivity {
     }
 
     private void getSecuencias(final SecuenciaAdapter arrayAdapter) {
+        final SharedPreferences prefs = getSharedPreferences("PreferenciaUsuario", Context.MODE_PRIVATE);
 
         Call<List<SecuenciaResponse>> call = ApiService.getSecuenciaService().get();
 
@@ -182,11 +189,22 @@ public class SecuenciaActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<SecuenciaResponse>> call, Response<List<SecuenciaResponse>> response) {
 
-                InicioActivity.allsecuenciaCache.clear();
+                secuenciasCache.clear();
                 for (SecuenciaResponse s : response.body()) {
                     arrayAdapter.addSecuencia(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
-//                    titles.add(s.getNombre());
-                    InicioActivity.allsecuenciaCache.add(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
+                    secuenciasCache.add(new Secuencia(s.getNombre(), s.getCodigoEjecutable()));
+                }
+
+                if(!secuenciasCache.isEmpty()){
+                    try {
+                        Gson gson = new Gson();
+                        String json = gson.toJson(secuenciasCache);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("SecuenciasAll",json );
+                        editor.commit();
+                    }catch (Exception e){
+                        estado.setText(e.getMessage());
+                    }
                 }
 
                 arrayAdapter.notifyDataSetChanged();
@@ -196,8 +214,20 @@ public class SecuenciaActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<SecuenciaResponse>> call, Throwable t) {
+                Gson gson = new Gson();
+                // traer las secuencias de cache
+
                 if (arrayAdapter.isEmpty()) {
-                    arrayAdapter.addAll(InicioActivity.allsecuenciaCache);
+
+                    String json = prefs.getString("Secuencias","");
+                    if(!json.isEmpty()) {
+                        Type type = new TypeToken<List<Secuencia>>() {
+                        }.getType();
+                        secuenciasCache = gson.fromJson(json, type);
+                    }else
+                        estado.setText("La cache esta vacia");
+
+                    arrayAdapter.addAll(secuenciasCache);
                     arrayAdapter.notifyDataSetChanged();
                     cargaSecuencias.setVisibility(View.GONE);
                     spinner.setVisibility(View.GONE);

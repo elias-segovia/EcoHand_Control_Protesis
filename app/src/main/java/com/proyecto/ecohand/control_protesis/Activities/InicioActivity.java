@@ -18,8 +18,6 @@ public class InicioActivity extends AppCompatActivity {
 
     private SharedPreferences prefs;
     private static final String TAG = "InicioActivity";
-    public static ArrayList<Secuencia> secuenciaCache = new ArrayList<>();
-    public static ArrayList<Secuencia> allsecuenciaCache = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
