@@ -141,7 +141,7 @@ public class SecuenciaActivity extends AppCompatActivity {
                 //comando.setText(secuencias.get(position).getNombre());
 
                 if (BluetoothService.connectedThread != null) { //First check to make sure thread created
-                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(position).getCodigo() + END);
+                    BluetoothService.connectedThread.write("QLOAD+" + secuencias.get(position).getCodigo() + END);
                     estado.setText(secuencias.get(position).getNombre());
                 }
             }
@@ -219,7 +219,7 @@ public class SecuenciaActivity extends AppCompatActivity {
 
                 if (arrayAdapter.isEmpty()) {
 
-                    String json = prefs.getString("Secuencias","");
+                    String json = prefs.getString("SecuenciasAll","");
                     if(!json.isEmpty()) {
                         Type type = new TypeToken<List<Secuencia>>() {
                         }.getType();
@@ -306,11 +306,11 @@ public class SecuenciaActivity extends AppCompatActivity {
                                 if (BluetoothService.connectedThread != null) { //First check to make sure thread created
 
                                     if (respuesta == "PARAR")
-                                        BluetoothService.connectedThread.write("PARAR");
+                                        BluetoothService.connectedThread.write("STOP");
                                     else if (respuesta == "CONTINUAR")
-                                        BluetoothService.connectedThread.write("CONTINUAR");
+                                        BluetoothService.connectedThread.write("CONT");
                                     else
-                                        BluetoothService.connectedThread.write("LOAD+" + s.getCodigo() + END);
+                                        BluetoothService.connectedThread.write("QLOAD+" + s.getCodigo() + END);
                                     estado.setText(respuesta);
                                 }
                             }
