@@ -180,7 +180,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
                 if (BluetoothService.connectedThread != null) { //First check to make sure thread created
-                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(position).getCodigo() + END);
+                    BluetoothService.connectedThread.write("QLOAD+" + secuencias.get(position).getCodigo() + END);
                     estado.setText(secuencias.get(position).getNombre());
                 }
 
@@ -259,7 +259,7 @@ public class HomeActivity extends AppCompatActivity {
                 // traer las secuencias de cache
                 if (arrayAdapter.isEmpty()) {
 
-                        String json = prefs.getString("SecuenciasAll","");
+                        String json = prefs.getString("Secuencias","");
                         if(!json.isEmpty()) {
                             Type type = new TypeToken<List<Secuencia>>() {
                             }.getType();
@@ -348,11 +348,11 @@ public class HomeActivity extends AppCompatActivity {
                             if (BluetoothService.connectedThread != null) { //First check to make sure thread created
 
                                 if (respuesta.toUpperCase().compareTo("PARAR") == 0)
-                                    BluetoothService.connectedThread.write("PARAR");
+                                    BluetoothService.connectedThread.write("STOP");
                                 else if (respuesta.toUpperCase().compareTo("CONTINUAR") == 0)
-                                    BluetoothService.connectedThread.write("CONTINUAR");
+                                    BluetoothService.connectedThread.write("CONT");
                                 else if (respuesta.toUpperCase().compareTo(secuencias.get(i).getNombre().toUpperCase()) == 0) {
-                                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(i).getCodigo() + END);
+                                    BluetoothService.connectedThread.write("QLOAD+" + secuencias.get(i).getCodigo() + END);
                                 } else
                                     flag = true;
 

@@ -84,7 +84,7 @@ public class SecuenciasComunesActivity extends Activity {
                 //comando.setText(secuencias.get(position).getNombre());
 
                 if (BluetoothService.connectedThread != null) { //First check to make sure thread created
-                    BluetoothService.connectedThread.write("LOAD+" + secuencias.get(position).getCodigo() + END);
+                    BluetoothService.connectedThread.write("QLOAD+" + secuencias.get(position).getCodigo() + END);
                     estado.setText(secuencias.get(position).getNombre());
                 }
             }
@@ -94,9 +94,7 @@ public class SecuenciasComunesActivity extends Activity {
 
 
             public void handleMessage(android.os.Message msg) {
-                try
-
-                {
+                try {
                     if (msg.what == MESSAGE_READ) {
                         String readMessage = null;
                         try {
@@ -160,7 +158,7 @@ public class SecuenciasComunesActivity extends Activity {
         arrayAdapter.addSecuencia(new Secuencia("Señalar", "D1B4D200D3B4D4B4D5B4"));
         arrayAdapter.addSecuencia(new Secuencia("Pinzar", "D1B4D2B4D300D400D500"));
         // agregar SOSTERNER la secuencia del FSR
-        arrayAdapter.addSecuencia(new Secuencia("Piedra Papel o Tijera", "PPT"));
+        arrayAdapter.addSecuencia(new Secuencia("Piedra Papel o Tijera", "PP00"));
 
         arrayAdapter.notifyDataSetChanged();
     }
@@ -235,15 +233,12 @@ public class SecuenciasComunesActivity extends Activity {
                             if (BluetoothService.connectedThread != null) { //First check to make sure thread created
 
                                 if (respuesta.toUpperCase().compareTo("PARAR") == 0)
-                                    BluetoothService.connectedThread.write("PARAR");
+                                    BluetoothService.connectedThread.write("STOP");
                                 else if (respuesta.toUpperCase().compareTo("CONTINUAR") == 0)
-                                    BluetoothService.connectedThread.write("CONTINUAR");
-                                else if (respuesta.toUpperCase().compareTo(secuencias.get(i).getNombre().toUpperCase()) == 0) {
-                                    if (secuencias.get(i).getNombre().compareTo("Piedra Papel o Tijera") == 0)
-                                        BluetoothService.connectedThread.write("LOAD+" + secuencias.get(i).getCodigo());
-                                    else
-                                        BluetoothService.connectedThread.write("LOAD+" + secuencias.get(i).getCodigo() + END);
-                                } else
+                                    BluetoothService.connectedThread.write("CONT");
+                                else if (respuesta.toUpperCase().compareTo(secuencias.get(i).getNombre().toUpperCase()) == 0)
+                                    BluetoothService.connectedThread.write("QLOAD+" + secuencias.get(i).getCodigo() + END);
+                                else
                                     flag = true;
 
                             }

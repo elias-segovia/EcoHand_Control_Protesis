@@ -62,6 +62,7 @@ public class BluetoothActivity extends AppCompatActivity {
         infoText = findViewById(R.id.infoText);
         desconectarBT = findViewById(R.id.DesconectarID);
 
+
         Menu.SetMenu(this.getBaseContext());
         Menu.setActivity(this);
         listMenu.setAdapter(Menu.getAdapter());
@@ -98,12 +99,13 @@ public class BluetoothActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+        checkBTState();
+
         if (BluetoothService.connectedThread == null) {
 
             titulo.setText("Seleccione el Bluetooth de la Prótesis");
             listView.setVisibility(View.VISIBLE);
             infoText.setVisibility(View.VISIBLE);
-            checkBTState();
 
             textView1 = findViewById(R.id.connecting);
             textView1.setTextSize(40);
@@ -151,6 +153,18 @@ public class BluetoothActivity extends AppCompatActivity {
 
     }
 
+    public void DesconectarBT(){
+
+        if(BluetoothService.connectedThread != null){
+            BluetoothService.connectedThread.cancel();
+            BluetoothService.connectedThread = null;
+            Intent i = new Intent(BluetoothActivity.this, BluetoothService.class);
+            stopService(i);
+            startActivity(getIntent());
+        }
+
+    }
+
     // Set up on-click listener for the list (nicked this - unsure)
     private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() {
         public void onItemClick(AdapterView av, View v, int arg2, long arg3) {
@@ -187,6 +201,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 Log.d(TAG, "...Bluetooth Activado...");
             } else {
                 //Prompt user to turn on Bluetooth
+                DesconectarBT();
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, 1);
 
