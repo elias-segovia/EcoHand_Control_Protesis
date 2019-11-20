@@ -29,7 +29,7 @@ import customfonts.MyTextView_SF_Pro_Display_Semibold;
 
 public class BluetoothActivity extends AppCompatActivity {
 
-    private ListView listMenu;
+    private ListView listMenu, dispositivos;
     private android.support.v7.widget.Toolbar toolbar;
     private boolean toolbarVisible = false;
     private MyTextView_SF_Pro_Display_Semibold titulo,infoText;
@@ -61,6 +61,7 @@ public class BluetoothActivity extends AppCompatActivity {
         listView = findViewById(R.id.list);
         infoText = findViewById(R.id.infoText);
         desconectarBT = findViewById(R.id.DesconectarID);
+        dispositivos = findViewById(R.id.navList);
 
 
         Menu.SetMenu(this.getBaseContext());
@@ -133,7 +134,7 @@ public class BluetoothActivity extends AppCompatActivity {
                 }
             } else {
                 String noDevices = "Ningun dispositivo pudo ser emparejado";
-                mPairedDevicesArrayAdapter.add(noDevices);
+                //mPairedDevicesArrayAdapter.add(noDevices);
             }
         }
         else{
