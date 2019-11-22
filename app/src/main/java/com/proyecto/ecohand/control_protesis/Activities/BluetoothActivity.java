@@ -195,7 +195,9 @@ public class BluetoothActivity extends AppCompatActivity {
     private void checkBTState() {
         // Check device has Bluetooth and that it is turned on
         mBtAdapter = BluetoothAdapter.getDefaultAdapter(); // CHECK THIS OUT THAT IT WORKS!!!
+
         if (mBtAdapter == null) {
+            DesconectarBT();
             Toast.makeText(getBaseContext(), "El dispositivo no soporta Bluetooth", Toast.LENGTH_SHORT).show();
         } else {
             if (mBtAdapter.isEnabled()) {

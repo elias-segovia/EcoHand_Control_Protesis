@@ -298,28 +298,32 @@ public class SecuenciaActivity extends AppCompatActivity {
                     ArrayList<String> speech = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String respuesta = speech.get(0);
 
-                    if (respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
+                    if (!respuesta.isEmpty() && respuesta.toUpperCase().indexOf("FINALIZAR") <= -1) {
 
-                        for (Secuencia s : secuencias) {
-                            if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
+                        boolean flag = true;
+                        for (int i = 0; i < secuencias.size() && flag == true; i++) {
+                            //if (respuesta.toUpperCase().indexOf(s.getNombre().toUpperCase()) > -1) {
 
-                                if (BluetoothService.connectedThread != null) { //First check to make sure thread created
+                            flag = false;
+                            if (BluetoothService.connectedThread != null) { //First check to make sure thread created
 
-                                    if (respuesta == "PARAR")
-                                        BluetoothService.connectedThread.write("STOP");
-                                    else if (respuesta == "CONTINUAR")
-                                        BluetoothService.connectedThread.write("CONT");
-                                    else
-                                        BluetoothService.connectedThread.write("QLOAD+" + s.getCodigo() + END);
-                                    estado.setText(respuesta);
-                                }
+                                if (respuesta.toUpperCase().compareTo("PARAR") == 0)
+                                    BluetoothService.connectedThread.write("STOP");
+                                else if (respuesta.toUpperCase().compareTo("CONTINUAR") == 0)
+                                    BluetoothService.connectedThread.write("CONT");
+                                else if (respuesta.toUpperCase().compareTo(secuencias.get(i).getNombre().toUpperCase()) == 0) {
+                                    BluetoothService.connectedThread.write("QLOAD+" + secuencias.get(i).getCodigo() + END);
+                                } else
+                                    flag = true;
+
                             }
+
                         }
+                        estado.setText(respuesta);
 
                         ComandoVoz(getWindow().getDecorView().findViewById(android.R.id.content));
                     }
 
-                    //comando.setText(respuesta);
                 }
                 break;
             default:
